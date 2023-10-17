@@ -1,9 +1,17 @@
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import './App.css';
 
 function App() {
   return (
-   <div>start page</div>
-  )
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<LoginPage />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
 }
 
 export default App
