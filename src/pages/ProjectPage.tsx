@@ -1,5 +1,9 @@
+import PortfolioEntries from "../components/PortfolioEntries/PortfolioEntries";
+
 const ProjectPage = () => {
-  return <div>ProjectPage</div>;
+  return <div>
+    <PortfolioEntries/>
+  </div>;
 };
 
 export default ProjectPage;
