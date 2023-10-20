@@ -1,16 +1,25 @@
-//entry-container: should be flexbox
+import PortfolioEntry from "../PortfolioEntry/PortfolioEntry";
 
-const PortfolioEntries = ({entries}) => {
+interface PortfolioEntriesProps {
+  entries: Array<{
+    id: number;
+    userID: number;
+    startDate: string;
+    endDate: string;
+    role: string;
+    description: string;
+    technologies: string[];
+    link: string;
+  }>;
+}
 
-  return <div className = "portfolio-entries">
-    {entries.map((entry) => (
-      <div className="entry-container">
-      <div className="start-and-end-date">
-        <p>{entry.startDate}-{entry.endDate}</p>
-        <div/>
-      <div/>
-    ))}
-
-    </div>;
+const PortfolioEntries: React.FC<PortfolioEntriesProps> = ({ entries }) => {
+  return (
+    <div className="portfolio-entries">
+      {entries.map((entry) => (
+        <PortfolioEntry entry={entry} key={entry.id} />
+      ))}
+    </div>
+  );
 };
 export default PortfolioEntries;

@@ -9,7 +9,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<LoginPage />} />
-          <Route path ="/project/:id" element = {<ProjectPage/>}/>
+          <Route path ="/project" element = {<ProjectPage/>}/>
         </Routes>
       </BrowserRouter>
     </div>
