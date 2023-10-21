@@ -2,8 +2,10 @@
   display: flex;
   flex-direction: row;
   border: 1px solid black;
+  border-radius: 25px;
   padding: 10px;
   text-align: center;
+   margin: 1em;
 }
 
 .start-and-end-date {
@@ -38,4 +40,10 @@
 
 .entry-technologies p {
   margin: 5px;
+}
+
+.technology {
+  border: 1px solid;
+  border-radius: 25px;
+  padding: 5px;
 }

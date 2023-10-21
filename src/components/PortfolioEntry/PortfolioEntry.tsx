@@ -20,7 +20,7 @@ const PortfolioEntry: React.FC<PortfolioEntryProps> = ({ entry }) => {
           <p className="entry-description">{entry.description}</p>
           <div className="entry-technologies">
             {entry.technologies.map((technology: string) => (
-              <p>{technology}</p>
+              <p className="technology">{technology}</p>
             ))}
           </div>
         </div>
