@@ -1,0 +1,41 @@
+.entry-container {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid black;
+  padding: 10px;
+  text-align: center;
+}
+
+.start-and-end-date {
+  padding: 20px;
+  border-right: 1px solid black;
+}
+
+.entry-facts {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  max-width: 400px;
+}
+
+.entry-role {
+  font-weight: bold;
+}
+
+.entry-description {
+  text-align: center;
+  white-space: pre-wrap;
+  word-wrap: break-word; 
+}
+
+.entry-technologies {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+.entry-technologies p {
+  margin: 5px;
+}

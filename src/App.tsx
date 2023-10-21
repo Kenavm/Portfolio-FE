@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
+import ProjectPage from "./pages/ProjectPage";
 import './App.css';
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<LoginPage />} />
+          <Route path ="/project" element = {<ProjectPage/>}/>
         </Routes>
       </BrowserRouter>
     </div>
