@@ -1,16 +1,8 @@
+import Entry from "../../types/Entry";
 import "./PortfolioEntry.css";
 
 interface PortfolioEntryProps {
-  entry: {
-    id: number;
-    userID: number;
-    startDate: string;
-    endDate: string;
-    role: string;
-    description: string;
-    technologies: string[];
-    link: string;
-  };
+  entry: Entry;
 }
 
 const PortfolioEntry: React.FC<PortfolioEntryProps> = ({ entry }) => {
