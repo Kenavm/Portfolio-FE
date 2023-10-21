@@ -15,7 +15,6 @@ interface PortfolioEntryProps {
 
 const PortfolioEntry: React.FC<PortfolioEntryProps> = ({ entry }) => {
   return (
-    <div>
       <div className="entry-container" key={entry.id}>
         <div className="start-and-end-date">
           <p>
@@ -34,7 +33,6 @@ const PortfolioEntry: React.FC<PortfolioEntryProps> = ({ entry }) => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
