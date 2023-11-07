@@ -1,3 +1,5 @@
+import './About.css'
+
 interface AboutMeProps {
     image: string,
     header: string,

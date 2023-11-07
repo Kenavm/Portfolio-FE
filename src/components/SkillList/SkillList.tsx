@@ -1,6 +1,6 @@
 import Skill from "../../types/Skill";
 import SkillEntry from "../SkillEntry/SkillEntry";
-
+import "./SkillList.css"
 
 interface SkillListProps {
   skills: Array<Skill>;
