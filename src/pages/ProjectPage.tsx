@@ -5,6 +5,7 @@ import fetchSkillEntries from "../api/fetchSkillEntries";
 import Entry from '../types/Entry'
 import Skill from '../types/Skill'
 import SkillList from "../components/SkillList/SkillList";
+import Header from '../components/Header/Header'
 
 const ProjectPage = () => {
   const [entries, setEntries] = useState<Array<Entry>>([]);
@@ -28,6 +29,7 @@ const ProjectPage = () => {
 
   return (
     <div>
+      <Header />
       <PortfolioList entries={entries} />
       <SkillList skills={skills} />
     </div>
