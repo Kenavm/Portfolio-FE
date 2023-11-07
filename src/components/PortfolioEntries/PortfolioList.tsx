@@ -10,7 +10,7 @@ const PortfolioEntries: React.FC<PortfolioEntriesProps> = ({ entries }) => {
   return (
     <div className="portfolio-entries">
       {entries.map((entry) => (
-        <PortfolioEntry entry={entry} key={entry.id} />
+        <PortfolioEntry key={entry.id} entry={entry} />
       ))}
     </div>
   );

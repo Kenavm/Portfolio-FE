@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import PortfolioEntries from "../components/PortfolioEntries/PortfolioEntries";
+import PortfolioList from "../components/PortfolioEntries/PortfolioList";
 import fetchPortfolioEntries from "../api/fetchPortfolioEntries";
 
 const ProjectPage = () => {
@@ -15,7 +15,7 @@ const ProjectPage = () => {
 
   return (
     <div>
-      <PortfolioEntries entries={entries} />
+      <PortfolioList entries={entries} />
     </div>
   );
 };
