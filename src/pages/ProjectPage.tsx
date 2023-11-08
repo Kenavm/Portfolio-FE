@@ -35,6 +35,7 @@ const ProjectPage = () => {
   useEffect(() => {
     const loadPublicUser = async () => {
       const data = await fetchPublicUser(1);
+      console.log(data.aboutDescription)
       setPublicUser(data);
     };
     loadPublicUser();
