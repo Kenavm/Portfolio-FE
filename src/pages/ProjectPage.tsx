@@ -6,10 +6,14 @@ import Entry from '../types/Entry'
 import Skill from '../types/Skill'
 import SkillList from "../components/SkillList/SkillList";
 import Header from '../components/Header/Header'
+import fetchPublicUser from "../api/fetchPublicUser";
+import PublicUser from "../types/PublicUser";
+import About from "../components/About/About";
 
 const ProjectPage = () => {
   const [entries, setEntries] = useState<Array<Entry>>([]);
   const [skills, setSkills] = useState<Array<Skill>>([]);
+  const [publicUser, setPublicUser] = useState<PublicUser>();
 
   useEffect(() => {
     const loadSkills = async () => {
@@ -22,14 +26,25 @@ const ProjectPage = () => {
   useEffect(() => {
     const loadPortfolioEntries = async () => {
       const data = await fetchPortfolioEntries();
+     
       setEntries(data);
     };
     loadPortfolioEntries();
   }, []);
 
+
+  useEffect(() => {
+    const loadPublicUser = async () => {
+      const data = await fetchPublicUser(1);
+      setPublicUser(data);
+    };
+    loadPublicUser();
+  }, []);
+
   const onclickAddEntry = () => {
     console.log("test");
   }
+
 
   return (
     <div>

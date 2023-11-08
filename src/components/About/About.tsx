@@ -1,16 +1,15 @@
 import './About.css'
+import PublicUser from '../../types/PublicUser'
 
 interface AboutMeProps {
-    image: string,
-    header: string,
-    text:string
+   publicUser: PublicUser
 }
 
-const About: React.FC<AboutMeProps> = ({image, header, text}) => {
+const About: React.FC<AboutMeProps> = ({publicUser}) => {
     return <div className="about-container">
-        <img src={image} className="image"></img>
-        <h2 className="header">{header}</h2>
-        <p className="text">{text}</p>
+        <img src={publicUser.id === 1 ? "src/resources/manuel.jpg":publicUser.id === 2 ? "src/resources/manuel.jpg":publicUser.id === 3 ?"src/resources/manuel.jpg":"" } className="image"></img>
+        <h2 className="header">About: {publicUser.name}</h2>
+        <p className="text">{publicUser.about}</p>
     </div>;
 }
 
