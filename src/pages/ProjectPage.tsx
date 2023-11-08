@@ -32,6 +32,7 @@ const ProjectPage = () => {
     loadPortfolioEntries();
   }, []);
 
+
   useEffect(() => {
     const loadPublicUser = async () => {
       const data = await fetchPublicUser(1);
@@ -40,11 +41,15 @@ const ProjectPage = () => {
     loadPublicUser();
   }, []);
 
+  const onclickAddEntry = () => {
+    console.log("test");
+  }
+
+
   return (
     <div>
       <Header />
-      {publicUser && <About publicUser={publicUser}/> }
-      <PortfolioList entries={entries} />
+      <PortfolioList entries={entries} onclickAddEntry={onclickAddEntry}/>
       <SkillList skills={skills} />
     </div>
   );
