@@ -27,10 +27,14 @@ const ProjectPage = () => {
     loadPortfolioEntries();
   }, []);
 
+  const onclickAddEntry = () => {
+    console.log("test");
+  }
+
   return (
     <div>
       <Header />
-      <PortfolioList entries={entries} />
+      <PortfolioList entries={entries} onclickAddEntry={onclickAddEntry}/>
       <SkillList skills={skills} />
     </div>
   );
