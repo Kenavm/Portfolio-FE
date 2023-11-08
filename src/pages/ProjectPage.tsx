@@ -26,6 +26,7 @@ const ProjectPage = () => {
   useEffect(() => {
     const loadPortfolioEntries = async () => {
       const data = await fetchPortfolioEntries();
+     
       setEntries(data);
     };
     loadPortfolioEntries();
@@ -34,7 +35,6 @@ const ProjectPage = () => {
   useEffect(() => {
     const loadPublicUser = async () => {
       const data = await fetchPublicUser(1);
-      console.log(data)
       setPublicUser(data);
     };
     loadPublicUser();
