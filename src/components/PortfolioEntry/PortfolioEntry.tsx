@@ -1,11 +1,12 @@
 import Entry from "../../types/Entry";
 import "./PortfolioEntry.css";
-
+import Button from "../Button/Button";
 interface PortfolioEntryProps {
   entry: Entry;
+  onDisplayModal: () => void;
 }
 
-const PortfolioEntry: React.FC<PortfolioEntryProps> = ({ entry }) => {
+const PortfolioEntry: React.FC<PortfolioEntryProps> = ({ entry, onDisplayModal }) => {
   return (
       <div className="entry-container" key={entry.id}>
         <div className="start-and-end-date">
@@ -16,6 +17,7 @@ const PortfolioEntry: React.FC<PortfolioEntryProps> = ({ entry }) => {
           <p>{entry.endDate}</p>
         </div>
         <div className="entry-facts">
+          <Button onClick={onDisplayModal} buttonText="Edit"/>
           <p className="entry-role">{entry.role}</p>
           <p className="entry-description">{entry.description}</p>
           <div className="entry-technologies">
