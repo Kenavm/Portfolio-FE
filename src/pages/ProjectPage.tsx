@@ -10,12 +10,19 @@ import fetchPublicUser from "../api/fetchPublicUser";
 import PublicUser from "../types/PublicUser";
 import About from "../components/About/About";
 import updatePortfolioEntry from "../api/updatePortfolioEntry";
+import AddEntry from "../components/AddEntry/AddEntry";
+import Technology from "../types/Technology";
 
 const ProjectPage = () => {
   const [entries, setEntries] = useState<Array<Entry>>([]);
   const [skills, setSkills] = useState<Array<Skill>>([]);
   const [publicUser, setPublicUser] = useState<PublicUser>();
   const [displayModal, setDisplayModal] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [roleValue, setRoleValue] = useState("");
+  const [repoLink, setRepoLink] = useState("");
+  const [technologies, setTechnologies] = useState([]);
 
   useEffect(() => {
     const loadSkills = async () => {
@@ -41,6 +48,20 @@ const ProjectPage = () => {
     loadPublicUser();
   }, []);
 
+  
+  useEffect(() => {
+    const loadTechnologies = () => {
+      const technologies = Object.keys(Technology).map((key, index) => ({
+        id: index + 1,
+        technology: Technology[key as keyof typeof Technology],
+        isChecked: false,
+      }));
+      setTechnologies(technologies);
+    };
+
+    loadTechnologies();
+  }, []);
+
   const onclickAddEntry = () => {
     console.log("test");
   };
@@ -51,7 +72,15 @@ const ProjectPage = () => {
 
   const openModal = () => {
     setDisplayModal(!displayModal);
-  }
+  };
+
+  const onSubmitEntry = () => {
+    console.log("test");
+  };
+
+  const onCheckedTechnology = (id: number) => {
+    console.log(id);
+  };
 
   return (
     <div>
@@ -60,9 +89,24 @@ const ProjectPage = () => {
       <PortfolioList
         entries={entries}
         onclickAddEntry={onclickAddEntry}
-        onDisplayModal={(() => openModal())}
+        onDisplayModal={() => openModal()}
       />
       <SkillList skills={skills} />
+      {
+        <AddEntry
+          onSubmitEntry={onSubmitEntry}
+          startDate={startDate}
+          onChangeStartDate={(date) => setStartDate(date)}
+          endDate={endDate}
+          onChangeEndDate={(date) => setEndDate(date)}
+          roleValue={roleValue}
+          onChangeRole={(event) => setRoleValue(event.target.value)}
+          repoLink={repoLink}
+          onChangeLink={(event) => setRepoLink(event.target.value)}
+          technologiesArray={technologies}
+          onChecked={onCheckedTechnology}
+        />
+      }
     </div>
   );
 };

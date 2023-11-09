@@ -1,5 +1,4 @@
 import Entry from "../../types/Entry";
-import Button from "../Button/Button";
 import PortfolioEntry from "../PortfolioEntry/PortfolioEntry";
 
 interface PortfolioEntriesProps {
@@ -14,7 +13,6 @@ const PortfolioEntries: React.FC<PortfolioEntriesProps> = ({ entries, onclickAdd
       {entries.map((entry) => (
         <PortfolioEntry key={entry.id} entry={entry} onDisplayModal={onDisplayModal}/>
       ))}
-      <Button onClick={onclickAddEntry} buttonText={"Add entry"}/>
     </div>
   );
 };
