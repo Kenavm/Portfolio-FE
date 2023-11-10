@@ -71,15 +71,12 @@ const ProjectPage = () => {
     updatePortfolioEntry(updatedEntry.id, updatedEntry);
   };
 
-  const openModal = (id: number) => {
+  const changeModalStatus = (id: number) => {
     const entry = entries.find((entry) => entry.id === id);
     setEditedEntry(entry);
     setDisplayModal(!displayModal);
   };
 
-  const closeModal = () =>  {
-    setDisplayModal(!displayModal)
-  }
 
   const onSubmitEntry = () => {
     console.log("test");
@@ -96,7 +93,7 @@ const ProjectPage = () => {
       <PortfolioList
         entries={entries}
         onclickAddEntry={onclickAddEntry}
-        onDisplayModal={(id: number) => openModal(id)}
+        onDisplayModal={(id: number) => changeModalStatus(id)}
       />
       <SkillList skills={skills} />
       
@@ -119,7 +116,7 @@ const ProjectPage = () => {
           entry={editedEntry}
           onEditEntry={(updatedEntry: Entry) => editEntry(updatedEntry)}
           technologies = {technologies}
-          cancel={closeModal}
+          cancel={(id:number) => changeModalStatus(id)}
         />
       )}
     </div>

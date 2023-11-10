@@ -1,6 +1,5 @@
 import DatePicker from "react-datepicker";
 import Technology from "../../types/Technology";
-
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../Button/Button";
 import Entry from "../../types/Entry";
@@ -10,7 +9,7 @@ interface EditEntryProps {
   entry: Entry;
   onEditEntry: (updatedEntry: Entry) => void;
   technologies: Array<Technology>;
-  cancel: () => void;
+  cancel: (id: number) => void;
 }
 
 const EditEntry: React.FC<EditEntryProps> = ({
@@ -31,8 +30,11 @@ const EditEntry: React.FC<EditEntryProps> = ({
   const [checkboxes, setCheckboxes] = useState<Array<boolean>>(
     technologies.map((tech) => entry.technologies.includes(tech.technology))
   );
-  const [updatedTechnologies, setUpdatedTechnologies] =
-    useState<Array<Technology>>(technologies.filter(tech => entry.technologies.includes(tech.technology)));
+  const [updatedTechnologies, setUpdatedTechnologies] = useState<
+    Array<Technology>
+  >(
+    technologies.filter((tech) => entry.technologies.includes(tech.technology))
+  );
 
   const handleCheckboxChange = (
     index: number,
@@ -41,7 +43,7 @@ const EditEntry: React.FC<EditEntryProps> = ({
   ) => {
     const newCheckboxes = [...checkboxes];
     newCheckboxes[index] = !newCheckboxes[index];
-  
+
     const tech = convertStringToEnum(technology);
 
     if (!checked) {
@@ -51,29 +53,29 @@ const EditEntry: React.FC<EditEntryProps> = ({
         prevTechnologies.filter((t) => t !== tech)
       );
     }
-   
+
     setCheckboxes(newCheckboxes);
   };
-  console.log(updatedTechnologies)
+  console.log(updatedTechnologies);
 
   const onSubmitEntry = () => {
-    console.log(updatedTechnologies)
+    console.log(updatedTechnologies);
     const updatedEntry: Entry = {
       id: entry.id,
       userId: entry.userId,
       startDate: convertDateToString(startDate),
       endDate: convertDateToString(endDate),
       description: description,
-      technologies: updatedTechnologies.map(tech => tech.technology),
+      technologies: updatedTechnologies.map((tech) => tech.technology),
       role: role,
       repoLink: repoLink,
     };
-    console.log(updatedEntry.technologies)
+    console.log(updatedEntry.technologies);
     onEditEntry(updatedEntry);
   };
 
   function convertStringToEnum(technology: string) {
-    return technologies.find(tech => Technology[tech.technology] === technology);
+    return technologies.find((tech) => tech.technology === technology);
   }
 
   function convertStringToDate(date: string) {
@@ -137,16 +139,16 @@ const EditEntry: React.FC<EditEntryProps> = ({
       </div>
       <div className="checkbox-technologies">
         {technologies.map((technology, index) => (
-          <div key={technology.id}>
+          <div key={index}>
             <label>
-              {Technology[technology.technology]}
+              {technology.technology}
               <input
                 type="checkbox"
                 checked={checkboxes[index]}
                 onChange={() =>
                   handleCheckboxChange(
                     index,
-                    Technology[technology.technology],
+                    technology.technology,
                     checkboxes[index]
                   )
                 }
