@@ -26,21 +26,43 @@ const EditEntry: React.FC<EditEntryProps> = ({
   const [role, setRole] = useState<string>(entry.role);
   const [repoLink, setRepoLink] = useState<string>(entry.linkToRepos);
   const [description, setDescription] = useState<string>(entry.description);
-  const [checkboxes, setCheckboxes] = useState<Array<boolean>>();
+  const [checkboxes, setCheckboxes] = useState<Array<boolean>>(
+    technologies.map(() => false)
+  );
+  const [updatedTechnologies, setUpdatedTechnologies] = useState<
+    Array<Technology>
+  >([]);
 
-  const handleCheckboxChange = (index: number) => {
+  const handleCheckboxChange = (
+    index: number,
+    technology: string,
+    checked: boolean
+  ) => {
     const newCheckboxes = [...checkboxes];
     newCheckboxes[index] = !newCheckboxes[index];
+    const tech = convertStringToEnum(technology);
+    if (!checked) {
+      setUpdatedTechnologies([...updatedTechnologies, tech]);
+    } else {
+      setUpdatedTechnologies((prevTechnologies) =>
+        prevTechnologies.filter((t) => t !== tech)
+      );
+    }
+
     setCheckboxes(newCheckboxes);
   };
+
+  function convertStringToEnum(technology: string) {
+    return Technology[technology];
+  }
 
   function convertStringToDate(date: string) {
     return new Date(date);
   }
 
-  convertDateToString(endDate)
+  convertDateToString(endDate);
   function convertDateToString(date: Date) {
-    return `${date.getFullYear()}-0${date.getMonth()+1}-0${date.getDate()}`;
+    return `${date.getFullYear()}-0${date.getMonth() + 1}-0${date.getDate()}`;
   }
 
   const onSubmitEntry = () => {
@@ -50,10 +72,12 @@ const EditEntry: React.FC<EditEntryProps> = ({
       startDate: convertDateToString(startDate),
       endDate: convertDateToString(endDate),
       description: description,
-      //  technologies: checkboxes,
+      technologies: updatedTechnologies,
       role: role,
-      //  linkToRepo: repoLink
+      linkToRepos: repoLink,
     };
+
+    return onEditEntry(updatedEntry);
   };
 
   return (
@@ -98,9 +122,8 @@ const EditEntry: React.FC<EditEntryProps> = ({
       </div>
       <div className="description">
         <label>
-          Description
-          <input
-            type="textarea"
+          Description:
+          <textarea
             value={description}
             placeholder="Insert the repository link"
             onChange={(e) => setDescription(e.target.value)}
@@ -109,13 +132,19 @@ const EditEntry: React.FC<EditEntryProps> = ({
       </div>
       <div className="checkbox-technologies">
         {technologies.map((technology, index) => (
-          <div key={technology}>
+          <div key={technology.id}>
             <label>
               {Technology[technology.technology]}
               <input
                 type="checkbox"
-                checked={Technology[technology.isChecked]}
-                onChange={() => handleCheckboxChange(index)}
+                checked={checkboxes[index]}
+                onChange={() =>
+                  handleCheckboxChange(
+                    index,
+                    Technology[technology.technology],
+                    checkboxes[index]
+                  )
+                }
               />
             </label>
           </div>

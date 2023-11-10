@@ -69,7 +69,7 @@ const ProjectPage = () => {
   };
 
   const editEntry = (updatedEntry: Entry) => {
-    const updateEntry = entries.find((entry) => (entry.id = updateEntry.id));
+    updatePortfolioEntry(updatedEntry.id, updatedEntry);
   };
 
   const openModal = (id: number) => {

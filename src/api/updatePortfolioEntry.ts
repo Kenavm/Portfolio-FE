@@ -1,6 +1,7 @@
 import Entry from "../types/Entry";
 
 const updatePortfolioEntry = async (id: number, portfolioEntryDTO: Entry) => {
+    console.log(portfolioEntryDTO)
     const url = `http://localhost:8080/api/v1/portfolio/${id}`;
     await fetch(url, {
         method: "PUT",
