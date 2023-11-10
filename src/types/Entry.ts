@@ -1,5 +1,3 @@
-import Technology from "./Technology";
-
 type Entry = {
     id:number,
     userId:number,

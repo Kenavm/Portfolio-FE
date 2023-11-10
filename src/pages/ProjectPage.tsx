@@ -31,23 +31,30 @@ const ProjectPage = () => {
       const data = await fetchSkillEntries();
       setSkills(data);
     };
-    loadSkills();
-  }, []);
 
-  useEffect(() => {
     const loadPortfolioEntries = async () => {
       const data = await fetchPortfolioEntries();
       setEntries(data);
     };
-    loadPortfolioEntries();
-  }, []);
 
-  useEffect(() => {
     const loadPublicUser = async () => {
       const data = await fetchPublicUser(1);
       setPublicUser(data);
     };
+
+    const loadTechnologies = () => {
+      const technologies = Object.keys(Technology).map((key, index) => ({
+        id: index + 1,
+        technology: Technology[key as keyof typeof Technology],
+        isChecked: false,
+      }));
+      setTechnologies(technologies);
+    };
+
+    loadSkills();
+    loadPortfolioEntries();
     loadPublicUser();
+    loadTechnologies();
   }, []);
 
   useEffect(() => {

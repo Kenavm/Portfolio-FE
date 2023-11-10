@@ -56,10 +56,8 @@ const EditEntry: React.FC<EditEntryProps> = ({
 
     setCheckboxes(newCheckboxes);
   };
-  console.log(updatedTechnologies);
 
   const onSubmitEntry = () => {
-    console.log(updatedTechnologies);
     const updatedEntry: Entry = {
       id: entry.id,
       userId: entry.userId,
@@ -70,7 +68,6 @@ const EditEntry: React.FC<EditEntryProps> = ({
       role: role,
       repoLink: repoLink,
     };
-    console.log(updatedEntry.technologies);
     onEditEntry(updatedEntry);
   };
 
@@ -158,7 +155,7 @@ const EditEntry: React.FC<EditEntryProps> = ({
         ))}
       </div>
       <Button buttonText="Edit entry" />
-      <Button onClick={cancel} buttonText="Cancel" />
+      <Button onClick={() => cancel} buttonText="Cancel" />
     </form>
   );
 };
