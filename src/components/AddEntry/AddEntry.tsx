@@ -70,7 +70,7 @@ const AddEntry: React.FC<AddEntryProps> = ({
           </div>
         ))}
       </div>
-      <Button onclick={onSubmitEntry} buttonText="Submit new entry" />
+      <Button onClick={onSubmitEntry} buttonText="Submit new entry" />
     </div>
   );
 };

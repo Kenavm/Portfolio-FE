@@ -1,10 +1,12 @@
+import Technology from "./Technology";
+
 type Entry = {
     id:number,
     userId:number,
-    startDate: string,
-    endDate: string,
+    startDate: Date,
+    endDate: Date,
     description: string,
-    technologies: Array<string>
+    technologies: Array<Technology>
     role: string,
     linkToRepos: string
 }

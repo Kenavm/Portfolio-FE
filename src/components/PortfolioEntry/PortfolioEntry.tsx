@@ -3,7 +3,7 @@ import "./PortfolioEntry.css";
 import Button from "../Button/Button";
 interface PortfolioEntryProps {
   entry: Entry;
-  onDisplayModal: () => void;
+  onDisplayModal: (id:number) => void;
 }
 
 const PortfolioEntry: React.FC<PortfolioEntryProps> = ({ entry, onDisplayModal }) => {
@@ -11,13 +11,13 @@ const PortfolioEntry: React.FC<PortfolioEntryProps> = ({ entry, onDisplayModal }
       <div className="entry-container" key={entry.id}>
         <div className="start-and-end-date">
           <p>
-            {entry.startDate}
+            {entry.startDate.toString()}
           </p>
           <p>-</p>
-          <p>{entry.endDate}</p>
+          <p>{entry.endDate.toString()}</p>
         </div>
         <div className="entry-facts">
-          <Button onClick={onDisplayModal} buttonText="Edit"/>
+          <Button onClick={() => onDisplayModal(entry.id)} buttonText="Edit"/>
           <p className="entry-role">{entry.role}</p>
           <p className="entry-description">{entry.description}</p>
           <div className="entry-technologies">

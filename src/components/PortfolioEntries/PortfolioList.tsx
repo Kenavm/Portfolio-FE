@@ -4,7 +4,7 @@ import PortfolioEntry from "../PortfolioEntry/PortfolioEntry";
 interface PortfolioEntriesProps {
   entries: Array<Entry>;
   onclickAddEntry : () => void;
-  onDisplayModal: () => void;
+  onDisplayModal: (id: number) => void;
 }
 
 const PortfolioEntries: React.FC<PortfolioEntriesProps> = ({ entries, onclickAddEntry, onDisplayModal }) => {

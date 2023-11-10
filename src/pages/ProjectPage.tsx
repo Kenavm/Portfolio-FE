@@ -12,6 +12,7 @@ import About from "../components/About/About";
 import updatePortfolioEntry from "../api/updatePortfolioEntry";
 import AddEntry from "../components/AddEntry/AddEntry";
 import Technology from "../types/Technology";
+import EditEntry from "../components/EditEntry/EditEntry";
 
 const ProjectPage = () => {
   const [entries, setEntries] = useState<Array<Entry>>([]);
@@ -23,6 +24,7 @@ const ProjectPage = () => {
   const [roleValue, setRoleValue] = useState("");
   const [repoLink, setRepoLink] = useState("");
   const [technologies, setTechnologies] = useState([]);
+  const [editedEntry, setEditedEntry] = useState<Entry>();
 
   useEffect(() => {
     const loadSkills = async () => {
@@ -35,7 +37,13 @@ const ProjectPage = () => {
   useEffect(() => {
     const loadPortfolioEntries = async () => {
       const data = await fetchPortfolioEntries();
-      setEntries(data);
+      const entriesWithDateObjects = data.map(entry => ({
+        ...entry,
+        startDate: new Date(entry.startDate),
+        endDate: new Date(entry.endDate),
+      }));
+      console.log(entriesWithDateObjects)
+      setEntries(entriesWithDateObjects);
     };
     loadPortfolioEntries();
   }, []);
@@ -48,7 +56,6 @@ const ProjectPage = () => {
     loadPublicUser();
   }, []);
 
-  
   useEffect(() => {
     const loadTechnologies = () => {
       const technologies = Object.keys(Technology).map((key, index) => ({
@@ -66,11 +73,13 @@ const ProjectPage = () => {
     console.log("test");
   };
 
-  const editEntry = (id: number, updatedEntry: Entry) => {
-    const updateEntry = entries.find((entry) => (entry.id = id));
+  const editEntry = (updatedEntry: Entry) => {
+    const updateEntry = entries.find((entry) => (entry.id = updateEntry.id));
   };
 
-  const openModal = () => {
+  const openModal = (id: number) => {
+    const entry = entries.find((entry) => entry.id === id);
+    setEditedEntry(entry);
     setDisplayModal(!displayModal);
   };
 
@@ -89,24 +98,30 @@ const ProjectPage = () => {
       <PortfolioList
         entries={entries}
         onclickAddEntry={onclickAddEntry}
-        onDisplayModal={() => openModal()}
+        onDisplayModal={(id: number) => openModal(id)}
       />
       <SkillList skills={skills} />
-      {
-        <AddEntry
-          onSubmitEntry={onSubmitEntry}
-          startDate={startDate}
-          onChangeStartDate={(date) => setStartDate(date)}
-          endDate={endDate}
-          onChangeEndDate={(date) => setEndDate(date)}
-          roleValue={roleValue}
-          onChangeRole={(event) => setRoleValue(event.target.value)}
-          repoLink={repoLink}
-          onChangeLink={(event) => setRepoLink(event.target.value)}
-          technologiesArray={technologies}
-          onChecked={onCheckedTechnology}
+      
+      {/* <AddEntry
+        onSubmitEntry={onSubmitEntry}
+        startDate={startDate}
+        onChangeStartDate={(date) => setStartDate(date)}
+        endDate={endDate}
+        onChangeEndDate={(date) => setEndDate(date)}
+        roleValue={roleValue}
+        onChangeRole={(event) => setRoleValue(event.target.value)}
+        repoLink={repoLink}
+        onChangeLink={(event) => setRepoLink(event.target.value)}
+        technologiesArray={technologies}
+        onChecked={onCheckedTechnology}
+      /> */}
+    
+      {displayModal && (
+        <EditEntry
+          entry={editedEntry}
+          onEditEntry={(updatedEntry: Entry) => editEntry(updatedEntry)}
         />
-      }
+      )}
     </div>
   );
 };
