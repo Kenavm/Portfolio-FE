@@ -37,13 +37,7 @@ const ProjectPage = () => {
   useEffect(() => {
     const loadPortfolioEntries = async () => {
       const data = await fetchPortfolioEntries();
-      const entriesWithDateObjects = data.map(entry => ({
-        ...entry,
-        startDate: new Date(entry.startDate),
-        endDate: new Date(entry.endDate),
-      }));
-      console.log(entriesWithDateObjects)
-      setEntries(entriesWithDateObjects);
+      setEntries(data);
     };
     loadPortfolioEntries();
   }, []);
@@ -63,6 +57,7 @@ const ProjectPage = () => {
         technology: Technology[key as keyof typeof Technology],
         isChecked: false,
       }));
+      console.log(technologies)
       setTechnologies(technologies);
     };
 
@@ -120,6 +115,7 @@ const ProjectPage = () => {
         <EditEntry
           entry={editedEntry}
           onEditEntry={(updatedEntry: Entry) => editEntry(updatedEntry)}
+          technologies = {technologies}
         />
       )}
     </div>

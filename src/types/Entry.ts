@@ -3,8 +3,8 @@ import Technology from "./Technology";
 type Entry = {
     id:number,
     userId:number,
-    startDate: Date,
-    endDate: Date,
+    startDate: string,
+    endDate: string,
     description: string,
     technologies: Array<Technology>
     role: string,
