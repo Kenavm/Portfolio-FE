@@ -41,33 +41,34 @@ const EditEntry: React.FC<EditEntryProps> = ({
   ) => {
     const newCheckboxes = [...checkboxes];
     newCheckboxes[index] = !newCheckboxes[index];
-    console.log(updatedTechnologies);
+  
     const tech = convertStringToEnum(technology);
-    console.log(tech)
+
     if (!checked) {
       setUpdatedTechnologies([...updatedTechnologies, tech]);
     } else {
       setUpdatedTechnologies((prevTechnologies) =>
-        prevTechnologies.filter((t) => t === tech)
+        prevTechnologies.filter((t) => t !== tech)
       );
     }
-    console.log(updatedTechnologies);
+   
     setCheckboxes(newCheckboxes);
   };
+  console.log(updatedTechnologies)
 
   const onSubmitEntry = () => {
-    console.log(updatedTechnologies);
+    console.log(updatedTechnologies)
     const updatedEntry: Entry = {
       id: entry.id,
       userId: entry.userId,
       startDate: convertDateToString(startDate),
       endDate: convertDateToString(endDate),
       description: description,
-      technologies: updatedTechnologies,
+      technologies: updatedTechnologies.map(tech => tech.technology),
       role: role,
       repoLink: repoLink,
     };
-
+    console.log(updatedEntry.technologies)
     onEditEntry(updatedEntry);
   };
 

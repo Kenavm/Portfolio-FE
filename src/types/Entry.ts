@@ -6,7 +6,7 @@ type Entry = {
     startDate: string,
     endDate: string,
     description: string,
-    technologies: Array<Technology>
+    technologies: Array<string>
     role: string,
     repoLink: string
 }
