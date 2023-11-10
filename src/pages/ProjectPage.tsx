@@ -78,6 +78,10 @@ const ProjectPage = () => {
     setDisplayModal(!displayModal);
   };
 
+  const closeModal = () =>  {
+    setDisplayModal(!displayModal)
+  }
+
   const onSubmitEntry = () => {
     console.log("test");
   };
@@ -116,6 +120,7 @@ const ProjectPage = () => {
           entry={editedEntry}
           onEditEntry={(updatedEntry: Entry) => editEntry(updatedEntry)}
           technologies = {technologies}
+          cancel={closeModal}
         />
       )}
     </div>

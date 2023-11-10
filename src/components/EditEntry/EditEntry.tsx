@@ -10,12 +10,14 @@ interface EditEntryProps {
   entry: Entry;
   onEditEntry: (updatedEntry: Entry) => void;
   technologies: Array<Technology>;
+  cancel: () => void;
 }
 
 const EditEntry: React.FC<EditEntryProps> = ({
   entry,
   onEditEntry,
   technologies,
+  cancel,
 }) => {
   const [startDate, setStartDate] = useState<Date>(
     convertStringToDate(entry.startDate)
@@ -151,7 +153,7 @@ const EditEntry: React.FC<EditEntryProps> = ({
         ))}
       </div>
       <Button buttonText="Edit entry" />
-      <Button buttonText="Cancel" />
+      <Button onClick={cancel} buttonText="Cancel" />
     </form>
   );
 };
