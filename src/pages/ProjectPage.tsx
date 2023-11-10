@@ -57,7 +57,6 @@ const ProjectPage = () => {
         technology: Technology[key as keyof typeof Technology],
         isChecked: false,
       }));
-      console.log(technologies)
       setTechnologies(technologies);
     };
 

@@ -8,7 +8,7 @@ type Entry = {
     description: string,
     technologies: Array<Technology>
     role: string,
-    linkToRepos: string
+    repoLink: string
 }
 
 export default Entry;

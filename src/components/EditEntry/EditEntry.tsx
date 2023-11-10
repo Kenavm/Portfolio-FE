@@ -26,14 +26,13 @@ const EditEntry: React.FC<EditEntryProps> = ({
     convertStringToDate(entry.endDate)
   );
   const [role, setRole] = useState<string>(entry.role);
-  const [repoLink, setRepoLink] = useState<string>(entry.linkToRepos);
+  const [repoLink, setRepoLink] = useState<string>(entry.repoLink);
   const [description, setDescription] = useState<string>(entry.description);
   const [checkboxes, setCheckboxes] = useState<Array<boolean>>(
-    technologies.map(() => false)
+    technologies.map((tech) => entry.technologies.includes(tech.technology))
   );
-  const [updatedTechnologies, setUpdatedTechnologies] = useState<
-    Array<Technology>
-  >([]);
+  const [updatedTechnologies, setUpdatedTechnologies] =
+    useState<Array<Technology>>(technologies.filter(tech => entry.technologies.includes(tech.technology)));
 
   const handleCheckboxChange = (
     index: number,
@@ -42,20 +41,38 @@ const EditEntry: React.FC<EditEntryProps> = ({
   ) => {
     const newCheckboxes = [...checkboxes];
     newCheckboxes[index] = !newCheckboxes[index];
+    console.log(updatedTechnologies);
     const tech = convertStringToEnum(technology);
+    console.log(tech)
     if (!checked) {
       setUpdatedTechnologies([...updatedTechnologies, tech]);
     } else {
       setUpdatedTechnologies((prevTechnologies) =>
-        prevTechnologies.filter((t) => t !== tech)
+        prevTechnologies.filter((t) => t === tech)
       );
     }
-
+    console.log(updatedTechnologies);
     setCheckboxes(newCheckboxes);
   };
 
+  const onSubmitEntry = () => {
+    console.log(updatedTechnologies);
+    const updatedEntry: Entry = {
+      id: entry.id,
+      userId: entry.userId,
+      startDate: convertDateToString(startDate),
+      endDate: convertDateToString(endDate),
+      description: description,
+      technologies: updatedTechnologies,
+      role: role,
+      repoLink: repoLink,
+    };
+
+    onEditEntry(updatedEntry);
+  };
+
   function convertStringToEnum(technology: string) {
-    return Technology[technology];
+    return technologies.find(tech => Technology[tech.technology] === technology);
   }
 
   function convertStringToDate(date: string) {
@@ -66,21 +83,6 @@ const EditEntry: React.FC<EditEntryProps> = ({
   function convertDateToString(date: Date) {
     return `${date.getFullYear()}-0${date.getMonth() + 1}-0${date.getDate()}`;
   }
-
-  const onSubmitEntry = () => {
-    const updatedEntry: Entry = {
-      id: entry.id,
-      userId: entry.userId,
-      startDate: convertDateToString(startDate),
-      endDate: convertDateToString(endDate),
-      description: description,
-      technologies: updatedTechnologies,
-      role: role,
-      linkToRepos: repoLink,
-    };
-
-    return onEditEntry(updatedEntry);
-  };
 
   return (
     <form className="edit-entry-form" onSubmit={onSubmitEntry}>
