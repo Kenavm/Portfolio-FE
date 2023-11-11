@@ -13,6 +13,7 @@ import updatePortfolioEntry from "../api/updatePortfolioEntry";
 import AddEntry from "../components/AddEntry/AddEntry";
 import Technology from "../types/Technology";
 import EditEntry from "../components/EditEntry/EditEntry";
+import postNewPortfolioEntry from "../api/postNewPortfolioEntry";
 
 const ProjectPage = () => {
   const [entries, setEntries] = useState<Array<Entry>>([]);
@@ -50,7 +51,7 @@ const ProjectPage = () => {
       }));
       setTechnologies(technologies);
     };
-
+ 
     loadSkills();
     loadPortfolioEntries();
     loadPublicUser();
@@ -87,12 +88,58 @@ const ProjectPage = () => {
 
   const onSubmitEntry = () => {
     console.log("test");
+
+    const startDateFormat =
+      startDate.getFullYear() +
+      "-" +
+      (startDate.getMonth() + 1) +
+      "-" +
+      startDate.getDate();
+
+    const endDateFormat =
+      endDate.getFullYear() +
+      "-" +
+      (endDate.getMonth() + 1) +
+      "-" +
+      endDate.getDate();
+
+    const filteredTechnologies = technologies
+      .filter((t) => t.isChecked)
+      .map((t) => t.technology);
+
+    console.log(filteredTechnologies);
+    console.log(roleValue);
+    console.log(repoLink);
+    const resultObject = {
+      id: 44,
+      userId : 1,
+      roleValue: roleValue,
+      startDate: startDateFormat,
+      endDate: endDateFormat,
+      role: roleValue,
+      technologies: filteredTechnologies,
+      description: "",
+      repoLink: repoLink,
+    };
+    console.log(resultObject);
+     postNewPortfolioEntry(resultObject);
   };
 
   const onCheckedTechnology = (id: number) => {
     console.log(id);
-  };
+    setTechnologies((prevTechnologies) =>
+    prevTechnologies.map((technology) => {
+      if (technology.id === id) {
+        const technologyCheck = technology.isChecked;
+        return { ...technology, isChecked: !technologyCheck };
+      } else {
+        return { ...technology };
+      }
+    })
+  );
+};
 
+  console.log(technologies);
   return (
     <div>
       <Header />
@@ -104,7 +151,7 @@ const ProjectPage = () => {
       />
       <SkillList skills={skills} />
       
-      {/* <AddEntry
+      { <AddEntry
         onSubmitEntry={onSubmitEntry}
         startDate={startDate}
         onChangeStartDate={(date) => setStartDate(date)}
@@ -115,15 +162,15 @@ const ProjectPage = () => {
         repoLink={repoLink}
         onChangeLink={(event) => setRepoLink(event.target.value)}
         technologiesArray={technologies}
-        onChecked={onCheckedTechnology}
-      /> */}
+        onChecked={(id) => onCheckedTechnology(id)}
+      /> }
     
       {displayModal && (
         <EditEntry
           entry={editedEntry}
           onEditEntry={(updatedEntry: Entry) => editEntry(updatedEntry)}
           technologies = {technologies}
-          cancel={(id:number) => changeModalStatus(id)}
+          cancel={(id) => changeModalStatus(id)}
         />
       )}
     </div>
