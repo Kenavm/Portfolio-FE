@@ -16,35 +16,24 @@ interface AddEntryProps {
   cancel: () => void;
 }
 
-const AddEntry: React.FC<AddEntryProps> = ({ technologies, cancel, onAddEntry }) => {
+const AddEntry: React.FC<AddEntryProps> = ({
+  technologies,
+  cancel,
+  onAddEntry,
+}) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [role, setRole] = useState("");
   const [repoLink, setRepoLink] = useState("");
   const [description, setDescription] = useState("");
-  const [updatedTechnologies, setUpdatedTechnologies] = useState(technologies)
-
+  const [updatedTechnologies, setUpdatedTechnologies] = useState(technologies);
 
   const onSubmitEntry = () => {
-    const startDateFormat =
-      startDate.getFullYear() +
-      "-" +
-      (startDate.getMonth() + 1) +
-      "-" +
-      startDate.getDate();
+    const startDateFormat = convertDateToString(startDate);
+    const endDateFormat = convertDateToString(endDate);
+    const filteredTechnologies = filterTechnologies();
 
-    const endDateFormat =
-      endDate.getFullYear() +
-      "-" +
-      (endDate.getMonth() + 1) +
-      "-" +
-      endDate.getDate();
-
-    const filteredTechnologies = updatedTechnologies
-      .filter((t) => t.isChecked)
-      .map((t) => t.technology);
-
-    const newEntry = {
+    const newEntry: Entry = {
       id: 0,
       userId: 1,
       startDate: startDateFormat,
@@ -54,11 +43,20 @@ const AddEntry: React.FC<AddEntryProps> = ({ technologies, cancel, onAddEntry })
       role: role,
       repoLink: repoLink,
     };
-    onAddEntry(newEntry)
+    onAddEntry(newEntry);
   };
 
+  function filterTechnologies() {
+    return updatedTechnologies
+      .filter((t) => t.isChecked)
+      .map((t) => t.technology);
+  }
+
+  function convertDateToString(date: Date) {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  }
+
   const onCheckedTechnology = (id: number) => {
-    console.log(id);
     setUpdatedTechnologies((prevTechnologies) =>
       prevTechnologies.map((technology) => {
         if (technology.id === id) {
