@@ -3,10 +3,10 @@ import "./PortfolioEntry.css";
 import Button from "../Button/Button";
 interface PortfolioEntryProps {
   entry: Entry;
-  onDisplayModal: (id:number) => void;
+  onDisplayEditModal: (id:number) => void;
 }
 
-const PortfolioEntry: React.FC<PortfolioEntryProps> = ({ entry, onDisplayModal }) => {
+const PortfolioEntry: React.FC<PortfolioEntryProps> = ({ entry, onDisplayEditModal: onDisplayModal }) => {
   return (
       <div className="entry-container" key={entry.id}>
         <div className="start-and-end-date">

@@ -129,7 +129,7 @@ const EditEntry: React.FC<EditEntryProps> = ({
           Description:
           <textarea
             value={description}
-            placeholder="Insert the repository link"
+            placeholder="description...."
             onChange={(e) => setDescription(e.target.value)}
           />
         </label>

@@ -19,28 +19,25 @@ const ProjectPage = () => {
   const [entries, setEntries] = useState<Array<Entry>>([]);
   const [skills, setSkills] = useState<Array<Skill>>([]);
   const [publicUser, setPublicUser] = useState<PublicUser>();
-  const [displayModal, setDisplayModal] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [roleValue, setRoleValue] = useState("");
-  const [repoLink, setRepoLink] = useState("");
+  const [displayEditModal, setDisplayEditModal] = useState(false);
+  const [displayAddModal, setDisplayAddModal] = useState(false);
   const [technologies, setTechnologies] = useState([]);
   const [editedEntry, setEditedEntry] = useState<Entry>();
 
   useEffect(() => {
     const loadSkills = async () => {
-      const data = await fetchSkillEntries();
-      setSkills(data);
+      const skills = await fetchSkillEntries();
+      setSkills(skills);
     };
 
     const loadPortfolioEntries = async () => {
-      const data = await fetchPortfolioEntries();
-      setEntries(data);
+      const entries = await fetchPortfolioEntries();
+      setEntries(entries);
     };
 
     const loadPublicUser = async () => {
-      const data = await fetchPublicUser(1);
-      setPublicUser(data);
+      const user = await fetchPublicUser(1);
+      setPublicUser(user);
     };
 
     const loadTechnologies = () => {
@@ -51,7 +48,7 @@ const ProjectPage = () => {
       }));
       setTechnologies(technologies);
     };
- 
+
     loadSkills();
     loadPortfolioEntries();
     loadPublicUser();
@@ -71,106 +68,53 @@ const ProjectPage = () => {
     loadTechnologies();
   }, []);
 
-  const onclickAddEntry = () => {
-    console.log("test");
-  };
 
   const editEntry = (updatedEntry: Entry) => {
     updatePortfolioEntry(updatedEntry.id, updatedEntry);
   };
 
-  const changeModalStatus = (id: number) => {
-    const entry = entries.find((entry) => entry.id === id);
-    setEditedEntry(entry);
-    setDisplayModal(!displayModal);
+  const changeModalStatus = (id?: number) => {
+    if (id !== undefined) {
+      const entry = entries.find((entry) => entry.id === id);
+      setEditedEntry(entry);
+      setDisplayEditModal(!displayEditModal);
+    } else {
+      setDisplayAddModal(!displayAddModal);
+    }
+  };
+
+  const addEntry = (newEntry: Entry) => {
+    postNewPortfolioEntry(newEntry);
+    setEntries([...entries, newEntry]);
+    changeModalStatus();
   };
 
 
-  const onSubmitEntry = () => {
-    console.log("test");
-
-    const startDateFormat =
-      startDate.getFullYear() +
-      "-" +
-      (startDate.getMonth() + 1) +
-      "-" +
-      startDate.getDate();
-
-    const endDateFormat =
-      endDate.getFullYear() +
-      "-" +
-      (endDate.getMonth() + 1) +
-      "-" +
-      endDate.getDate();
-
-    const filteredTechnologies = technologies
-      .filter((t) => t.isChecked)
-      .map((t) => t.technology);
-
-    console.log(filteredTechnologies);
-    console.log(roleValue);
-    console.log(repoLink);
-    const resultObject = {
-      id: 44,
-      userId : 1,
-      roleValue: roleValue,
-      startDate: startDateFormat,
-      endDate: endDateFormat,
-      role: roleValue,
-      technologies: filteredTechnologies,
-      description: "",
-      repoLink: repoLink,
-    };
-    console.log(resultObject);
-     postNewPortfolioEntry(resultObject);
-  };
-
-  const onCheckedTechnology = (id: number) => {
-    console.log(id);
-    setTechnologies((prevTechnologies) =>
-    prevTechnologies.map((technology) => {
-      if (technology.id === id) {
-        const technologyCheck = technology.isChecked;
-        return { ...technology, isChecked: !technologyCheck };
-      } else {
-        return { ...technology };
-      }
-    })
-  );
-};
-
-  console.log(technologies);
   return (
     <div>
       <Header />
       {publicUser && <About publicUser={publicUser} />}
       <PortfolioList
         entries={entries}
-        onclickAddEntry={onclickAddEntry}
-        onDisplayModal={(id: number) => changeModalStatus(id)}
+        onDisplayEditModal={(id: number) => changeModalStatus(id)}
+        onDisplayAddModal={() => changeModalStatus()}
       />
       <SkillList skills={skills} />
-      
-      { <AddEntry
-        onSubmitEntry={onSubmitEntry}
-        startDate={startDate}
-        onChangeStartDate={(date) => setStartDate(date)}
-        endDate={endDate}
-        onChangeEndDate={(date) => setEndDate(date)}
-        roleValue={roleValue}
-        onChangeRole={(event) => setRoleValue(event.target.value)}
-        repoLink={repoLink}
-        onChangeLink={(event) => setRepoLink(event.target.value)}
-        technologiesArray={technologies}
-        onChecked={(id) => onCheckedTechnology(id)}
-      /> }
-    
-      {displayModal && (
+
+      {displayAddModal && (
+        <AddEntry
+          technologies={technologies}
+          onAddEntry={(newEntry: Entry) => addEntry(newEntry)}
+          cancel={() => changeModalStatus()}
+        />
+      )}
+
+      {displayEditModal && (
         <EditEntry
           entry={editedEntry}
           onEditEntry={(updatedEntry: Entry) => editEntry(updatedEntry)}
-          technologies = {technologies}
-          cancel={(id) => changeModalStatus(id)}
+          technologies={technologies}
+          cancel={(id: number) => changeModalStatus(id)}
         />
       )}
     </div>
