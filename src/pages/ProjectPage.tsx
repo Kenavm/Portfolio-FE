@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from "react";
 import PortfolioList from "../components/PortfolioEntries/PortfolioList";
 import fetchPortfolioEntries from "../api/fetchPortfolioEntries";
@@ -46,10 +47,15 @@ const ProjectPage = () => {
   }
 
   return (
-    <div>
-      <Header />
-      {publicUser && <About publicUser={publicUser}/>}
-      <PortfolioList entries={entries} onclickAddEntry={onclickAddEntry}/>
+    <div >
+      <Header/>
+      <div >
+         <div>{publicUser && <About publicUser={publicUser}/>}</div>
+         <div className="flex h-screen" >
+          <div className="flex-grow overflow-y-auto mt-20"><PortfolioList entries={entries} onclickAddEntry={onclickAddEntry}/></div>
+         </div>
+      </div>
+     
       <SkillList skills={skills} />
     </div>
   );
