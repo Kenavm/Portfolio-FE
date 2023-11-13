@@ -1,12 +1,12 @@
 interface NewButtonProps {
-  onclick: () => void;
-  buttonText: string;
+  onClick?: () => void;
+  buttonText?: string;
 }
 
-const Button: React.FC<NewButtonProps> = ({ onclick, buttonText }) => {
+const Button: React.FC<NewButtonProps> = ({ onClick, buttonText }) => {
   return (
     <div>
-      <button onClick={onclick}>{buttonText}</button>
+      <button onClick={onClick}>{buttonText}</button>
     </div>
   );
 };

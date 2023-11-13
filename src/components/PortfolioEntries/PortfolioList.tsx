@@ -2,19 +2,19 @@ import Entry from "../../types/Entry";
 import Button from "../Button/Button";
 import PortfolioEntry from "../PortfolioEntry/PortfolioEntry";
 
-
 interface PortfolioEntriesProps {
   entries: Array<Entry>;
-  onclickAddEntry : () => void;
+  onDisplayEditModal: (id: number) => void;
+  onDisplayAddModal: () => void;
 }
 
-const PortfolioEntries: React.FC<PortfolioEntriesProps> = ({ entries, onclickAddEntry }) => {
+const PortfolioEntries: React.FC<PortfolioEntriesProps> = ({ entries, onDisplayEditModal, onDisplayAddModal }) => {
   return (
     <div className="portfolio-entries">
       {entries.map((entry) => (
-        <PortfolioEntry key={entry.id} entry={entry} />
+        <PortfolioEntry key={entry.id} entry={entry} onDisplayEditModal={onDisplayEditModal}/>
       ))}
-      <Button onclick={onclickAddEntry} buttonText={"Add entry"}/>
+       <Button onClick= {() => onDisplayAddModal()} buttonText = {"Add entry"}/>
     </div>
   );
 };
