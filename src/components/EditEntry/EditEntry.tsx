@@ -32,10 +32,10 @@ const EditEntry: React.FC<EditEntryProps> = ({
   const [repoLink, setRepoLink] = useState<string>(entry.repoLink);
   const [description, setDescription] = useState<string>(entry.description);
   const [updatedTechnologies, setUpdatedTechnologies] = useState(
-    checkboxChecked()
+    setStartingCheckboxState()
   );
 
-  function checkboxChecked() {
+  function setStartingCheckboxState() {
     return technologies.map((tech) => {
       if (entry.technologies.includes(tech.technology)) {
         return { ...tech, isChecked: true };
@@ -57,7 +57,7 @@ const EditEntry: React.FC<EditEntryProps> = ({
       })
     );
   };
- 
+
   const onSubmitEntry = () => {
     const knownTechnologies = convertTechnologiesToString();
     const updatedEntry: Entry = {
