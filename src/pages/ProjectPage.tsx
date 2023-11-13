@@ -29,12 +29,7 @@ const ProjectPage = () => {
       const skills = await fetchSkillEntries();
       setSkills(skills);
     };
-
-    const loadPortfolioEntries = async () => {
-      const entries = await fetchPortfolioEntries();
-      setEntries(entries);
-    };
-
+   
     const loadPublicUser = async () => {
       const user = await fetchPublicUser(1);
       setPublicUser(user);
@@ -55,19 +50,10 @@ const ProjectPage = () => {
     loadTechnologies();
   }, []);
 
-  useEffect(() => {
-    const loadTechnologies = () => {
-      const technologies = Object.keys(Technology).map((key, index) => ({
-        id: index + 1,
-        technology: Technology[key as keyof typeof Technology],
-        isChecked: false,
-      }));
-      setTechnologies(technologies);
-    };
-
-    loadTechnologies();
-  }, []);
-
+  const loadPortfolioEntries = async () => {
+    const entries = await fetchPortfolioEntries();
+    setEntries(entries);
+  };
 
   const editEntry = (updatedEntry: Entry) => {
     updatePortfolioEntry(updatedEntry.id, updatedEntry);
@@ -83,9 +69,9 @@ const ProjectPage = () => {
     }
   };
 
-  const addEntry = (newEntry: Entry) => {
-    postNewPortfolioEntry(newEntry);
-    setEntries([...entries, newEntry]);
+  const addEntry = async (newEntry: Entry) => {
+    await postNewPortfolioEntry(newEntry);
+    await loadPortfolioEntries();
     changeModalStatus();
   };
 

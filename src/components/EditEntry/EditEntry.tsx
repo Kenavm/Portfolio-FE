@@ -35,7 +35,7 @@ const EditEntry: React.FC<EditEntryProps> = ({
   >(
     technologies.filter((tech) => entry.technologies.includes(tech.technology))
   );
-
+   
   const handleCheckboxChange = (
     index: number,
     technology: string,
@@ -58,6 +58,7 @@ const EditEntry: React.FC<EditEntryProps> = ({
   };
 
   const onSubmitEntry = () => {
+    console.log(entry.id)
     const updatedEntry: Entry = {
       id: entry.id,
       userId: entry.userId,
