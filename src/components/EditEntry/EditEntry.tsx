@@ -1,18 +1,20 @@
 import DatePicker from "react-datepicker";
-import Teeh from "../../types/Technology";
+import Technology from "../../types/Technology";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../Button/Button";
 import Entry from "../../types/Entry";
 import { useState } from "react";
 
+interface TechnologyCheckbox {
+  id: number;
+  technology: Technology;
+  isChecked: boolean;
+}
+
 interface EditEntryProps {
   entry: Entry;
   onEditEntry: (updatedEntry: Entry) => void;
-  technologies: {
-    id: number;
-    technology: Teeh;
-    isChecked: boolean;
-  }[];
+  technologies: TechnologyCheckbox[];
   cancel: (id: number) => void;
 }
 
@@ -36,25 +38,19 @@ const EditEntry: React.FC<EditEntryProps> = ({
   );
 
   function setStartingCheckboxState() {
-    return technologies.map((tech) => {
-      if (entry.technologies.includes(tech.technology)) {
-        return { ...tech, isChecked: true };
-      } else {
-        return { ...tech };
-      }
-    });
+    return technologies.map((tech) => ({
+      ...tech,
+      isChecked: entry.technologies.includes(tech.technology),
+    }));
   }
 
   const handleCheckboxChange = (id: number) => {
     setUpdatedTechnologies((prevTechnologies) =>
-      prevTechnologies.map((technology) => {
-        if (technology.id === id) {
-          const technologyCheck = technology.isChecked;
-          return { ...technology, isChecked: !technologyCheck };
-        } else {
-          return { ...technology };
-        }
-      })
+      prevTechnologies.map((technology) =>
+        technology.id === id
+          ? { ...technology, isChecked: !technology.isChecked }
+          : technology
+      )
     );
   };
 
@@ -76,7 +72,7 @@ const EditEntry: React.FC<EditEntryProps> = ({
 
   function convertTechnologiesToString() {
     return updatedTechnologies
-      .filter((tech) => tech.isChecked === true)
+      .filter((tech) => tech.isChecked)
       .map((tech) => tech.technology);
   }
 
