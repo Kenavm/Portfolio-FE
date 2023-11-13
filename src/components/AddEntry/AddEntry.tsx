@@ -1,5 +1,5 @@
 import DatePicker from "react-datepicker";
-import Technology from "../../types/Technology";
+import Teeh from "../../types/Technology";
 
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../Button/Button";
@@ -9,7 +9,7 @@ import Entry from "../../types/Entry";
 interface AddEntryProps {
   technologies: {
     id: number;
-    technology: Technology;
+    technology: Teeh;
     isChecked: boolean;
   }[];
   onAddEntry: (newEntry: Entry) => void;

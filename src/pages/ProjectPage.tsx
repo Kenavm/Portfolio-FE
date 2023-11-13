@@ -21,7 +21,13 @@ const ProjectPage = () => {
   const [publicUser, setPublicUser] = useState<PublicUser>();
   const [displayEditModal, setDisplayEditModal] = useState(false);
   const [displayAddModal, setDisplayAddModal] = useState(false);
-  const [technologies, setTechnologies] = useState([]);
+  const [technologies, setTechnologies] = useState<
+    {
+      id: number;
+      technology: Technology;
+      isChecked: boolean;
+    }[]
+  >([]);
   const [editedEntry, setEditedEntry] = useState<Entry>();
 
   useEffect(() => {
@@ -29,10 +35,10 @@ const ProjectPage = () => {
       const skills = await fetchSkillEntries();
       setSkills(skills);
     };
-   
+
     const loadPublicUser = async () => {
       const user = await fetchPublicUser(1);
-      setPublicUser(user);
+      publicUser && setPublicUser(user);
     };
 
     const loadTechnologies = () => {
@@ -75,7 +81,6 @@ const ProjectPage = () => {
     changeModalStatus();
   };
 
-
   return (
     <div>
       <Header />
@@ -95,7 +100,7 @@ const ProjectPage = () => {
         />
       )}
 
-      {displayEditModal && (
+      {displayEditModal && editedEntry && (
         <EditEntry
           entry={editedEntry}
           onEditEntry={(updatedEntry: Entry) => editEntry(updatedEntry)}

@@ -1,5 +1,5 @@
 import DatePicker from "react-datepicker";
-import Technology from "../../types/Technology";
+import Teeh from "../../types/Technology";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../Button/Button";
 import Entry from "../../types/Entry";
@@ -8,7 +8,11 @@ import { useState } from "react";
 interface EditEntryProps {
   entry: Entry;
   onEditEntry: (updatedEntry: Entry) => void;
-  technologies: Array<Technology>;
+  technologies: {
+    id: number;
+    technology: Teeh;
+    isChecked: boolean;
+  }[];
   cancel: (id: number) => void;
 }
 
@@ -27,53 +31,53 @@ const EditEntry: React.FC<EditEntryProps> = ({
   const [role, setRole] = useState<string>(entry.role);
   const [repoLink, setRepoLink] = useState<string>(entry.repoLink);
   const [description, setDescription] = useState<string>(entry.description);
-  const [checkboxes, setCheckboxes] = useState<Array<boolean>>(
-    technologies.map((tech) => entry.technologies.includes(tech.technology))
+  const [updatedTechnologies, setUpdatedTechnologies] = useState(
+    checkboxChecked()
   );
-  const [updatedTechnologies, setUpdatedTechnologies] = useState<
-    Array<Technology>
-  >(
-    technologies.filter((tech) => entry.technologies.includes(tech.technology))
-  );
-   
-  const handleCheckboxChange = (
-    index: number,
-    technology: string,
-    checked: boolean
-  ) => {
-    const newCheckboxes = [...checkboxes];
-    newCheckboxes[index] = !newCheckboxes[index];
 
-    const tech = convertStringToEnum(technology);
+  function checkboxChecked() {
+    return technologies.map((tech) => {
+      if (entry.technologies.includes(tech.technology)) {
+        return { ...tech, isChecked: true };
+      } else {
+        return { ...tech };
+      }
+    });
+  }
 
-    if (!checked) {
-      setUpdatedTechnologies([...updatedTechnologies, tech]);
-    } else {
-      setUpdatedTechnologies((prevTechnologies) =>
-        prevTechnologies.filter((t) => t !== tech)
-      );
-    }
-
-    setCheckboxes(newCheckboxes);
+  const handleCheckboxChange = (id: number) => {
+    setUpdatedTechnologies((prevTechnologies) =>
+      prevTechnologies.map((technology) => {
+        if (technology.id === id) {
+          const technologyCheck = technology.isChecked;
+          return { ...technology, isChecked: !technologyCheck };
+        } else {
+          return { ...technology };
+        }
+      })
+    );
   };
-
+ 
   const onSubmitEntry = () => {
-    console.log(entry.id)
+    const knownTechnologies = convertTechnologiesToString();
     const updatedEntry: Entry = {
       id: entry.id,
       userId: entry.userId,
       startDate: convertDateToString(startDate),
       endDate: convertDateToString(endDate),
       description: description,
-      technologies: updatedTechnologies.map((tech) => tech.technology),
+      technologies: knownTechnologies,
       role: role,
       repoLink: repoLink,
     };
+
     onEditEntry(updatedEntry);
   };
 
-  function convertStringToEnum(technology: string) {
-    return technologies.find((tech) => tech.technology === technology);
+  function convertTechnologiesToString() {
+    return updatedTechnologies
+      .filter((tech) => tech.isChecked === true)
+      .map((tech) => tech.technology);
   }
 
   function convertStringToDate(date: string) {
@@ -135,20 +139,14 @@ const EditEntry: React.FC<EditEntryProps> = ({
         </label>
       </div>
       <div className="checkbox-technologies">
-        {technologies.map((technology, index) => (
-          <div key={index}>
+        {updatedTechnologies.map((technology) => (
+          <div key={technology.technology}>
             <label>
               {technology.technology}
               <input
                 type="checkbox"
-                checked={checkboxes[index]}
-                onChange={() =>
-                  handleCheckboxChange(
-                    index,
-                    technology.technology,
-                    checkboxes[index]
-                  )
-                }
+                checked={technology.isChecked}
+                onChange={() => handleCheckboxChange(technology.id)}
               />
             </label>
           </div>
