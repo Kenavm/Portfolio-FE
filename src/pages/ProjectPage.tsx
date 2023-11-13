@@ -38,7 +38,7 @@ const ProjectPage = () => {
 
     const loadPublicUser = async () => {
       const user = await fetchPublicUser(1);
-      publicUser && setPublicUser(user);
+      setPublicUser(user);
     };
 
     const loadTechnologies = () => {
@@ -80,7 +80,7 @@ const ProjectPage = () => {
     await loadPortfolioEntries();
     changeModalStatus();
   };
-
+ 
   return (
     <div>
       <Header />

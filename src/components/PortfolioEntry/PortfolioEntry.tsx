@@ -21,8 +21,8 @@ const PortfolioEntry: React.FC<PortfolioEntryProps> = ({ entry, onDisplayEditMod
           <p className="entry-role">{entry.role}</p>
           <p className="entry-description">{entry.description}</p>
           <div className="entry-technologies">
-            {entry.technologies.map((technology: string) => (
-              <p className="technology">{technology}</p>
+            {entry.technologies.map((technology: string, index) => (
+              <p key= {entry.technologies[index]}className="technology">{technology}</p>
             ))}
           </div>
         </div>
