@@ -6,7 +6,7 @@ type Entry = {
     description: string,
     technologies: Array<string>
     role: string,
-    linkToRepos: string
+    repoLink: string
 }
 
 export default Entry;
