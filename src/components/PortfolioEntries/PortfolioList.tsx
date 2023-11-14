@@ -1,3 +1,4 @@
+import React from 'react';
 import Entry from "../../types/Entry";
 import Button from "../Button/Button";
 import PortfolioEntry from "../PortfolioEntry/PortfolioEntry";

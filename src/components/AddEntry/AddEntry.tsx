@@ -71,19 +71,22 @@ const AddEntry: React.FC<AddEntryProps> = ({
   };
 
   return (
-    <div className="add_entry_container">
+    <div className="border-2 border-black rounded-2xl bg-[#EAEAEA] add_entry_container">
       <div className="start_date_container">
         Start Date:
-        <DatePicker
+          <DatePicker
           selected={startDate}
           onChange={(date: Date) => setStartDate(date)}
+          className="bg-[#EAEAEA] border border-black m-4"
         />
+        
       </div>
       <div className="end_date_container">
         End Date:
         <DatePicker
           selected={endDate}
           onChange={(date: Date) => setEndDate(date)}
+          className="bg-[#EAEAEA] border border-black m-4"
         />
       </div>
       <div className="role_input_field">
@@ -94,6 +97,7 @@ const AddEntry: React.FC<AddEntryProps> = ({
             value={role}
             placeholder={"Insert the role"}
             onChange={(e) => setRole(e.target.value)}
+            className="bg-[#EAEAEA] border border-black m-4"
           />
         </label>
       </div>
@@ -105,31 +109,37 @@ const AddEntry: React.FC<AddEntryProps> = ({
             value={repoLink}
             placeholder={"Insert the repository link"}
             onChange={(e) => setRepoLink(e.target.value)}
+            className="bg-[#EAEAEA] border border-black m-4"
           />
         </label>
       </div>
-      <div className="description">
-        <label>
+      <div className="description flex items-center justify-center">
+        <label className="">
           Description:
           <textarea
             value={description}
             placeholder="description...."
             onChange={(e) => setDescription(e.target.value)}
+            className="bg-[#EAEAEA] border border-black m-4"
           />
         </label>
       </div>
-      <div className="checkbox_technologies">
+      <div className="flex flex-col items-center justify-center">
+         <div className="checkbox_technologies">
         {technologies.map((technology) => (
-          <div key={technology.id}>
-            <p>{technology.technology}</p>
+          <div key={technology.id} className="flex items-center mb-2">
+            <p className="mr-2">{technology.technology}</p>
             <input
               type="checkbox"
               defaultChecked={technology.isChecked}
               onChange={() => onCheckedTechnology(technology.id)}
+              className="mr-2 bg-[#FF2E63]"
             />
           </div>
         ))}
       </div>
+      </div>
+     
       <Button onClick={onSubmitEntry} buttonText="Submit new entry" />
       <Button onClick={() => cancel()} buttonText="Cancel" />
     </div>

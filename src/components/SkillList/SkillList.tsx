@@ -1,3 +1,4 @@
+import React from 'react';
 import Skill from "../../types/Skill";
 import SkillEntry from "../SkillEntry/SkillEntry";
 import "./SkillList.css"
