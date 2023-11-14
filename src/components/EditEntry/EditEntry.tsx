@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Button from "../Button/Button";
 import Entry from "../../types/Entry";
 import { useState } from "react";
+import React from "react";
 
 interface TechnologyCheckbox {
   id: number;
@@ -36,6 +37,8 @@ const EditEntry: React.FC<EditEntryProps> = ({
   const [updatedTechnologies, setUpdatedTechnologies] = useState(
     setStartingCheckboxState()
   );
+  const validation =
+    role.length > 0 && repoLink.length > 0 && description.length > 0;
 
   function setStartingCheckboxState() {
     return technologies.map((tech) => ({
@@ -81,13 +84,18 @@ const EditEntry: React.FC<EditEntryProps> = ({
   }
 
   function convertDateToString(date: Date) {
-    return date.getDate().toString().length > 1
-      ? `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-      : `${date.getFullYear()}-${date.getMonth() + 1}-0${date.getDate()}`;
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
   }
 
   return (
-    <form className="edit-entry-form" onSubmit={onSubmitEntry}>
+    <form
+      className="border-2 border-black rounded-2xl bg-[#EAEAEA] edit-entry-form"
+      onSubmit={onSubmitEntry}
+    >
       <div className="start-date-container">
         Start Date:
         <DatePicker
@@ -95,6 +103,7 @@ const EditEntry: React.FC<EditEntryProps> = ({
           onChange={(date: Date | null | undefined) =>
             date && setStartDate(date)
           }
+          className="bg-[#EAEAEA] border border-black m-4"
         />
       </div>
       <div className="end-date-container">
@@ -102,6 +111,7 @@ const EditEntry: React.FC<EditEntryProps> = ({
         <DatePicker
           selected={endDate}
           onChange={(date: Date | null | undefined) => date && setEndDate(date)}
+          className="bg-[#EAEAEA] border border-black m-4"
         />
       </div>
       <div className="role-input-field">
@@ -112,6 +122,7 @@ const EditEntry: React.FC<EditEntryProps> = ({
             value={role}
             placeholder="Insert the role"
             onChange={(e) => setRole(e.target.value)}
+            className="bg-[#EAEAEA] border border-black m-4"
           />
         </label>
       </div>
@@ -123,6 +134,7 @@ const EditEntry: React.FC<EditEntryProps> = ({
             value={repoLink}
             placeholder="Insert the repository link"
             onChange={(e) => setRepoLink(e.target.value)}
+            className="bg-[#EAEAEA] border border-black m-4"
           />
         </label>
       </div>
@@ -133,24 +145,32 @@ const EditEntry: React.FC<EditEntryProps> = ({
             value={description}
             placeholder="description...."
             onChange={(e) => setDescription(e.target.value)}
+            className="bg-[#EAEAEA] border border-black m-4"
           />
         </label>
       </div>
-      <div className="checkbox-technologies">
-        {updatedTechnologies.map((technology) => (
-          <div key={technology.technology}>
-            <label>
-              {technology.technology}
-              <input
-                type="checkbox"
-                checked={technology.isChecked}
-                onChange={() => handleCheckboxChange(technology.id)}
-              />
-            </label>
-          </div>
-        ))}
+      <div className="flex flex-col items-center justify-center">
+        <div className="checkbox-technologies">
+          {updatedTechnologies.map((technology) => (
+            <div key={technology.technology} className="flex items-center mb-2">
+              <label className="mr-2">
+                {technology.technology}
+                <input
+                  type="checkbox"
+                  checked={technology.isChecked}
+                  onChange={() => handleCheckboxChange(technology.id)}
+                  className="mr-2 bg-[#FF2E63]"
+                />
+              </label>
+            </div>
+          ))}
+        </div>
       </div>
-      <Button buttonText="Edit entry" />
+
+      <Button
+        className={validation ? "visibility: visible" : "visibility: hidden"}
+        buttonText="Edit entry"
+      />
       <Button onClick={() => cancel} buttonText="Cancel" />
     </form>
   );

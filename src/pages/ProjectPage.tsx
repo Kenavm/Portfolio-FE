@@ -14,6 +14,7 @@ import AddEntry from "../components/AddEntry/AddEntry";
 import Technology from "../types/Technology";
 import EditEntry from "../components/EditEntry/EditEntry";
 import postNewPortfolioEntry from "../api/postNewPortfolioEntry";
+import React from "react";
 
 const ProjectPage = () => {
   const [entries, setEntries] = useState<Array<Entry>>([]);
@@ -83,22 +84,30 @@ const ProjectPage = () => {
  
   return (
     <div>
-      <Header />
-      {publicUser && <About publicUser={publicUser} />}
-      <PortfolioList
+    <Header />
+    <div>
+      
+      <div className="flex h-screen">
+        <div className="flex-none">{publicUser && <About publicUser={publicUser} />}</div>
+      <div className="flex-grow overflow-y-auto"><PortfolioList
         entries={entries}
         onDisplayEditModal={(id: number) => changeModalStatus(id)}
         onDisplayAddModal={() => changeModalStatus()}
-      />
+      /></div>
+      </div>
+      
+      
       <SkillList skills={skills} />
-
-      {displayAddModal && (
+      <div className="">
+        {displayAddModal && (
         <AddEntry
           technologies={technologies}
           onAddEntry={(newEntry: Entry) => addEntry(newEntry)}
           cancel={() => changeModalStatus()}
         />
       )}
+      </div>
+      
 
       {displayEditModal && editedEntry && (
         <EditEntry
@@ -108,6 +117,7 @@ const ProjectPage = () => {
           cancel={(id: number) => changeModalStatus(id)}
         />
       )}
+    </div>
     </div>
   );
 };
