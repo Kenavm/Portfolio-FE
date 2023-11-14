@@ -81,7 +81,9 @@ const EditEntry: React.FC<EditEntryProps> = ({
   }
 
   function convertDateToString(date: Date) {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    return date.getDate().toString().length > 1
+      ? `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+      : `${date.getFullYear()}-${date.getMonth() + 1}-0${date.getDate()}`;
   }
 
   return (
