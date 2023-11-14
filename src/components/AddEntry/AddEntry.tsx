@@ -1,10 +1,10 @@
 import DatePicker from "react-datepicker";
 import Teeh from "../../types/Technology";
-
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../Button/Button";
 import { useState } from "react";
 import Entry from "../../types/Entry";
+import React from "react";
 
 interface AddEntryProps {
   technologies: {
@@ -27,6 +27,7 @@ const AddEntry: React.FC<AddEntryProps> = ({
   const [repoLink, setRepoLink] = useState("");
   const [description, setDescription] = useState("");
   const [updatedTechnologies, setUpdatedTechnologies] = useState(technologies);
+  const validation = role.length > 0 && repoLink.length > 0 && description.length > 0;
 
   const onSubmitEntry = () => {
     const startDateFormat = convertDateToString(startDate);
@@ -140,7 +141,7 @@ const AddEntry: React.FC<AddEntryProps> = ({
       </div>
       </div>
      
-      <Button onClick={onSubmitEntry} buttonText="Submit new entry" />
+      <Button className={validation ? "visibility: visible": "visibility: hidden"} onClick={onSubmitEntry} buttonText="Submit new entry" />
       <Button onClick={() => cancel()} buttonText="Cancel" />
     </div>
   );

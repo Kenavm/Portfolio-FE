@@ -14,6 +14,7 @@ import AddEntry from "../components/AddEntry/AddEntry";
 import Technology from "../types/Technology";
 import EditEntry from "../components/EditEntry/EditEntry";
 import postNewPortfolioEntry from "../api/postNewPortfolioEntry";
+import React from "react";
 
 const ProjectPage = () => {
   const [entries, setEntries] = useState<Array<Entry>>([]);

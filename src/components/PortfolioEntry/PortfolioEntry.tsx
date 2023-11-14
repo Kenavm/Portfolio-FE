@@ -19,7 +19,7 @@ const PortfolioEntry: React.FC<PortfolioEntryProps> = ({ entry, onDisplayEditMod
           <p>{entry.endDate.toString()}</p>
         </div>
         <div className="entry-facts flex flex-1 flex-col justify-center max-w-md">
-          <Button onClick={() => onDisplayModal(entry.id)} buttonText="Edit"/>
+          <Button className= {"flex justify-end"} onClick={() => onDisplayModal(entry.id)} buttonText="Edit"/>
           <p className="entry-role font-bold text-[#FF2E63]">{entry.role}</p>
           <p className="entry-description text-center whitespace-pre-wrap break-words ml-2">{entry.description}</p>
           <div className="entry-technologies flex justify-center flex-wrap p-2.5 text-[#FF2E63]">

@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Button from "../Button/Button";
 import Entry from "../../types/Entry";
 import { useState } from "react";
+import React from "react";
 
 interface TechnologyCheckbox {
   id: number;
@@ -36,6 +37,8 @@ const EditEntry: React.FC<EditEntryProps> = ({
   const [updatedTechnologies, setUpdatedTechnologies] = useState(
     setStartingCheckboxState()
   );
+  const validation =
+    role.length > 0 && repoLink.length > 0 && description.length > 0;
 
   function setStartingCheckboxState() {
     return technologies.map((tech) => ({
@@ -87,7 +90,10 @@ const EditEntry: React.FC<EditEntryProps> = ({
   }
 
   return (
-    <form className="border-2 border-black rounded-2xl bg-[#EAEAEA] edit-entry-form" onSubmit={onSubmitEntry}>
+    <form
+      className="border-2 border-black rounded-2xl bg-[#EAEAEA] edit-entry-form"
+      onSubmit={onSubmitEntry}
+    >
       <div className="start-date-container">
         Start Date:
         <DatePicker
@@ -143,23 +149,26 @@ const EditEntry: React.FC<EditEntryProps> = ({
       </div>
       <div className="flex flex-col items-center justify-center">
         <div className="checkbox-technologies">
-        {updatedTechnologies.map((technology) => (
-          <div key={technology.technology} className="flex items-center mb-2">
-            <label className="mr-2">
-              {technology.technology}
-              <input
-                type="checkbox"
-                checked={technology.isChecked}
-                onChange={() => handleCheckboxChange(technology.id)}
-                className="mr-2 bg-[#FF2E63]"
-              />
-            </label>
-          </div>
-        ))}
+          {updatedTechnologies.map((technology) => (
+            <div key={technology.technology} className="flex items-center mb-2">
+              <label className="mr-2">
+                {technology.technology}
+                <input
+                  type="checkbox"
+                  checked={technology.isChecked}
+                  onChange={() => handleCheckboxChange(technology.id)}
+                  className="mr-2 bg-[#FF2E63]"
+                />
+              </label>
+            </div>
+          ))}
+        </div>
       </div>
-      </div>
-      
-      <Button buttonText="Edit entry" />
+
+      <Button
+        className={validation ? "visibility: visible" : "visibility: hidden"}
+        buttonText="Edit entry"
+      />
       <Button onClick={() => cancel} buttonText="Cancel" />
     </form>
   );
