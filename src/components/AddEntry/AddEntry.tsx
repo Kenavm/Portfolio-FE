@@ -133,14 +133,13 @@ const AddEntry: React.FC<AddEntryProps> = ({
             <input
               type="checkbox"
               defaultChecked={technology.isChecked}
-              onChange={() => onCheckedTechnology(technology.id)}
+              onChange={() => onCheckedTechnology(technology.id)} 
               className="mr-2 bg-[#FF2E63]"
             />
           </div>
         ))}
       </div>
       </div>
-     
       <Button className={validation ? "visibility: visible": "visibility: hidden"} onClick={onSubmitEntry} buttonText="Submit new entry" />
       <Button onClick={() => cancel()} buttonText="Cancel" />
     </div>
