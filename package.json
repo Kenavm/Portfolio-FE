@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "esbuild": "^0.19.5",
     "react": "^18.2.0",
     "react-datepicker": "^4.21.0",
     "react-dom": "^18.2.0",
@@ -33,7 +34,12 @@
   },
   "eslintConfig": {
     "rules": {
-      "react/jsx-uses-vars": ["error", { "varsIgnorePattern": "class" }]
+      "react/jsx-uses-vars": [
+        "error",
+        {
+          "varsIgnorePattern": "class"
+        }
+      ]
     }
   }
 }
