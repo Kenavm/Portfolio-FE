@@ -1,10 +1,13 @@
+import React from 'react';
 import Button from "../components/Button/Button";
-
-const onClickLoginPage = () => {
-  console.log("test login button");
-};
+import { useNavigate } from "react-router-dom";
 
 const StartPage = () => {
+  const navigate = useNavigate();
+
+  const onClickLoginPage = () => {
+    navigate(`/login`);
+  };
   return (
     <div>
       <Button
@@ -12,6 +15,9 @@ const StartPage = () => {
         buttonText="login"
         className="login_button"
       />
+      <div className= "portfolios">
+          Add button with potfolios here
+      </div>
     </div>
   );
 };
