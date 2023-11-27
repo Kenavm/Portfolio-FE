@@ -12,7 +12,7 @@ const About: React.FC<AboutMeProps> = ({publicUser}) => {
         <div className="about-container absolute inset-y-10 left-5">
           <img
             className="image rounded-lg m-12 mt-15"
-            src={publicUser.id === 1 ? "/manuel.jpg" : publicUser.id === 2 ? "/manuel.jpg" : publicUser.id === 3 ? "/manuel.jpg" : ""}
+            src={publicUser.id === 1 ? "/theresa.jpg" : publicUser.id === 2 ? "/manuel.jpg" : publicUser.id === 3 ? "/manuel.jpg" : ""}
             alt="User Image"
           />
           <h2 className="header">About: {publicUser.name}</h2>
