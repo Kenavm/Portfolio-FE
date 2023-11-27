@@ -73,7 +73,9 @@ const ProjectPage = () => {
   };
 
   const editEntry = (updatedEntry: Entry) => {
-    updatePortfolioEntry(updatedEntry.id, updatedEntry);
+    if (jwtToken !== null) {
+    updatePortfolioEntry(updatedEntry.id, updatedEntry, jwtToken);
+    }
   };
 
   const changeModalStatus = (id?: number) => {
@@ -87,9 +89,11 @@ const ProjectPage = () => {
   };
 
   const addEntry = async (newEntry: Entry) => {
-    await postNewPortfolioEntry(newEntry);
+    if (jwtToken !== null) {
+    await postNewPortfolioEntry(newEntry, jwtToken);
     await loadPortfolioEntries();
     changeModalStatus();
+    }
   };
 
   return (
