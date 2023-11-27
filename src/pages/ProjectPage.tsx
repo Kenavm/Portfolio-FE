@@ -15,6 +15,7 @@ import Technology from "../types/Technology";
 import EditEntry from "../components/EditEntry/EditEntry";
 import postNewPortfolioEntry from "../api/postNewPortfolioEntry";
 import React from "react";
+import { useParams } from "react-router-dom";
 
 const ProjectPage = () => {
   const [entries, setEntries] = useState<Array<Entry>>([]);
@@ -30,16 +31,22 @@ const ProjectPage = () => {
     }[]
   >([]);
   const [editedEntry, setEditedEntry] = useState<Entry>();
+  const { userId } = useParams();
+  const jwtToken = localStorage.getItem("jwtToken");
 
   useEffect(() => {
     const loadSkills = async () => {
-      const skills = await fetchSkillEntries();
-      setSkills(skills);
+      if (jwtToken !== null) {
+        const skills = await fetchSkillEntries(jwtToken);
+        setSkills(skills);
+      }
     };
 
     const loadPublicUser = async () => {
-      const user = await fetchPublicUser(1);
-      setPublicUser(user);
+      if (jwtToken !== null && userId !== undefined) {
+        const user = await fetchPublicUser(parseInt(userId), jwtToken);
+        setPublicUser(user);
+      }
     };
 
     const loadTechnologies = () => {
@@ -58,8 +65,11 @@ const ProjectPage = () => {
   }, []);
 
   const loadPortfolioEntries = async () => {
-    const entries = await fetchPortfolioEntries();
-    setEntries(entries);
+    if (jwtToken !== null && userId !== undefined) {
+      const entries = await fetchPortfolioEntries(parseInt(userId), jwtToken);
+      const sortedEntries = entries.sort((a: Entry, b: Entry) => a.id < b.id);
+      setEntries(sortedEntries);
+    }
   };
 
   const editEntry = (updatedEntry: Entry) => {
@@ -81,43 +91,44 @@ const ProjectPage = () => {
     await loadPortfolioEntries();
     changeModalStatus();
   };
- 
+
   return (
     <div>
-    <Header />
-    <div>
-      
-      <div className="flex h-screen">
-        <div className="flex-none">{publicUser && <About publicUser={publicUser} />}</div>
-      <div className="flex-grow overflow-y-auto"><PortfolioList
-        entries={entries}
-        onDisplayEditModal={(id: number) => changeModalStatus(id)}
-        onDisplayAddModal={() => changeModalStatus()}
-      /></div>
-      </div>
-      
-      
-      <SkillList skills={skills} />
-      <div className="">
-        {displayAddModal && (
-        <AddEntry
-          technologies={technologies}
-          onAddEntry={(newEntry: Entry) => addEntry(newEntry)}
-          cancel={() => changeModalStatus()}
-        />
-      )}
-      </div>
-      
+      <Header />
+      <div>
+        <div className="flex h-screen">
+          <div className="flex-none">
+            {publicUser && <About publicUser={publicUser} />}
+          </div>
+          <div className="flex-grow overflow-y-auto">
+            <PortfolioList
+              entries={entries}
+              onDisplayEditModal={(id: number) => changeModalStatus(id)}
+              onDisplayAddModal={() => changeModalStatus()}
+            />
+          </div>
+        </div>
 
-      {displayEditModal && editedEntry && (
-        <EditEntry
-          entry={editedEntry}
-          onEditEntry={(updatedEntry: Entry) => editEntry(updatedEntry)}
-          technologies={technologies}
-          cancel={(id: number) => changeModalStatus(id)}
-        />
-      )}
-    </div>
+        <SkillList skills={skills} />
+        <div className="">
+          {displayAddModal && (
+            <AddEntry
+              technologies={technologies}
+              onAddEntry={(newEntry: Entry) => addEntry(newEntry)}
+              cancel={() => changeModalStatus()}
+            />
+          )}
+        </div>
+
+        {displayEditModal && editedEntry && (
+          <EditEntry
+            entry={editedEntry}
+            onEditEntry={(updatedEntry: Entry) => editEntry(updatedEntry)}
+            technologies={technologies}
+            cancel={(id: number) => changeModalStatus(id)}
+          />
+        )}
+      </div>
     </div>
   );
 };

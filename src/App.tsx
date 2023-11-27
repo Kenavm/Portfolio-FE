@@ -12,7 +12,7 @@ function App() {
         <Routes>
           <Route index element={<StartPage/>} />
           <Route path= "/login" element = {<LoginPage/>} />
-          <Route path ="/project" element = {<ProjectPage/>}/>
+          <Route path ="/page/:userId" element = {<ProjectPage/>}/>
         </Routes>
       </BrowserRouter>
     </div>
