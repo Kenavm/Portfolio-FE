@@ -15,6 +15,7 @@ import Technology from "../types/Technology";
 import EditEntry from "../components/EditEntry/EditEntry";
 import postNewPortfolioEntry from "../api/postNewPortfolioEntry";
 import React from "react";
+import { useParams } from "react-router-dom";
 
 const ProjectPage = () => {
   const [entries, setEntries] = useState<Array<Entry>>([]);
@@ -30,16 +31,22 @@ const ProjectPage = () => {
     }[]
   >([]);
   const [editedEntry, setEditedEntry] = useState<Entry>();
+  const { userId } = useParams();
+  const jwtToken = localStorage.getItem("jwtToken");
 
   useEffect(() => {
     const loadSkills = async () => {
-      const skills = await fetchSkillEntries();
-      setSkills(skills);
+      if (jwtToken !== null) {
+        const skills = await fetchSkillEntries(jwtToken);
+        setSkills(skills);
+      }
     };
 
     const loadPublicUser = async () => {
-      const user = await fetchPublicUser(1);
-      setPublicUser(user);
+      if (jwtToken !== null && userId !== undefined) {
+        const user = await fetchPublicUser(parseInt(userId), jwtToken);
+        setPublicUser(user);
+      }
     };
 
     const loadTechnologies = () => {
@@ -58,8 +65,11 @@ const ProjectPage = () => {
   }, []);
 
   const loadPortfolioEntries = async () => {
-    const entries = await fetchPortfolioEntries();
-    setEntries(entries);
+    if (jwtToken !== null && userId !== undefined) {
+      const entries = await fetchPortfolioEntries(parseInt(userId), jwtToken);
+      const sortedEntries = entries.sort((a: Entry, b: Entry) => a.id < b.id);
+      setEntries(sortedEntries);
+    }
   };
 
   const editEntry = (updatedEntry: Entry) => {

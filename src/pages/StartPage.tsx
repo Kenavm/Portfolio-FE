@@ -16,7 +16,7 @@ const StartPage = () => {
         className="login_button"
       />
       <div className= "portfolios">
-          Add button with potfolios here
+          Add button with portfolios here
       </div>
     </div>
   );

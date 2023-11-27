@@ -2,43 +2,48 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 import LoginForm from "../components/LoginForm/LoginForm";
-import fetchToken from "../api/fetchToken";
+import authenticateUser from "../api/authenticateUser";
+import PrivateUser from "../types/PrivateUser";
+import LoginResponse from "../types/LoginResponse";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-  const [privateUser, setPrivateUser] = useState({
+  const [privateUser, setPrivateUser] = useState<PrivateUser>({
+    id: 1,
     username: "",
     password: "",
   });
+  const [loginResponse, setLoginResponse] = useState<LoginResponse>();
+  const navigate = useNavigate();
 
-  const [loginResponse, setLoginResponse] = useState({
-    username: "",
-    privateUserId: 0,
-    jwt: "",
-  });
+  useEffect(() => {
+    if (loginResponse && loginResponse.privateUserId !== undefined) {
+      navigate(`/page/${loginResponse.privateUserId}`);
+    }
+  }, [loginResponse]); 
 
   const onClickSignIn = async () => {
-    const user = await fetchToken(privateUser);
-    if (user.jwt != "") {
+    const user = await authenticateUser(privateUser);
+    if (user.jwt !== "" || user.jwt !== undefined) {
+      localStorage.setItem('jwtToken', user.jwt);
       setLoginResponse(user);
     }
   };
 
-  useEffect(() => {
-    console.log(loginResponse);
-  }, [loginResponse]);
-
   return (
     <div>
-      <LoginForm
-        privateUser={privateUser}
-        onChangeUsername={(event) =>
-          setPrivateUser({ ...privateUser, username: event.target.value })
-        }
-        onChangePassword={(event) =>
-          setPrivateUser({ ...privateUser, password: event.target.value })
-        }
-        onClickSignIn={onClickSignIn}
-      />
+      {privateUser && (
+        <LoginForm
+          privateUser={privateUser}
+          onChangeUsername={(event) =>
+            setPrivateUser({ ...privateUser, username: event.target.value })
+          }
+          onChangePassword={(event) =>
+            setPrivateUser({ ...privateUser, password: event.target.value })
+          }
+          onClickSignIn={onClickSignIn}
+        />
+      )}
     </div>
   );
 };

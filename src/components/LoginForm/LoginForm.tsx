@@ -23,7 +23,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
       </div>
       <div>
         <p>Password: </p>
-        <input value={privateUser.password} onChange={onChangePassword}></input>
+        <input type="password" value={privateUser.password} onChange={onChangePassword}></input>
       </div>
       <Button
         onClick={onClickSignIn}
