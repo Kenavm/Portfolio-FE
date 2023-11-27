@@ -81,43 +81,44 @@ const ProjectPage = () => {
     await loadPortfolioEntries();
     changeModalStatus();
   };
- 
+
   return (
     <div>
-    <Header />
-    <div>
-      
-      <div className="flex h-screen">
-        <div className="flex-none">{publicUser && <About publicUser={publicUser} />}</div>
-      <div className="flex-grow overflow-y-auto"><PortfolioList
-        entries={entries}
-        onDisplayEditModal={(id: number) => changeModalStatus(id)}
-        onDisplayAddModal={() => changeModalStatus()}
-      /></div>
-      </div>
-      
-      
-      <SkillList skills={skills} />
-      <div className="">
-        {displayAddModal && (
-        <AddEntry
-          technologies={technologies}
-          onAddEntry={(newEntry: Entry) => addEntry(newEntry)}
-          cancel={() => changeModalStatus()}
-        />
-      )}
-      </div>
-      
+      <Header />
+      <div>
+        <div className="flex h-screen">
+          <div className="flex-none">
+            {publicUser && <About publicUser={publicUser} />}
+          </div>
+          <div className="flex-grow overflow-y-auto">
+            <PortfolioList
+              entries={entries}
+              onDisplayEditModal={(id: number) => changeModalStatus(id)}
+              onDisplayAddModal={() => changeModalStatus()}
+            />
+          </div>
+        </div>
 
-      {displayEditModal && editedEntry && (
-        <EditEntry
-          entry={editedEntry}
-          onEditEntry={(updatedEntry: Entry) => editEntry(updatedEntry)}
-          technologies={technologies}
-          cancel={(id: number) => changeModalStatus(id)}
-        />
-      )}
-    </div>
+        <SkillList skills={skills} />
+        <div className="">
+          {displayAddModal && (
+            <AddEntry
+              technologies={technologies}
+              onAddEntry={(newEntry: Entry) => addEntry(newEntry)}
+              cancel={() => changeModalStatus()}
+            />
+          )}
+        </div>
+
+        {displayEditModal && editedEntry && (
+          <EditEntry
+            entry={editedEntry}
+            onEditEntry={(updatedEntry: Entry) => editEntry(updatedEntry)}
+            technologies={technologies}
+            cancel={(id: number) => changeModalStatus(id)}
+          />
+        )}
+      </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import PrivateUser from "../../types/PrivateUser";
 import Button from "../Button/Button";
 
