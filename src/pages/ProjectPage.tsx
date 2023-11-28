@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import PortfolioList from "../components/PortfolioEntries/PortfolioList";
-import fetchPortfolioEntries from "../api/fetchPortfolioEntries";
 import fetchSkillEntries from "../api/fetchSkillEntries";
 import Entry from "../types/Entry";
 import Skill from "../types/Skill";
 import SkillList from "../components/SkillList/SkillList";
 import Header from "../components/Header/Header";
 import fetchPageDTO from "../api/fetchPageDTO";
-import PublicUser from "../types/PublicUser";
 import About from "../components/About/About";
 import updatePortfolioEntry from "../api/updatePortfolioEntry";
 import AddEntry from "../components/AddEntry/AddEntry";
@@ -19,7 +17,6 @@ import { useParams } from "react-router-dom";
 import PageDTO from "../types/PageDTO";
 
 const ProjectPage = () => {
-  const [entries, setEntries] = useState<Array<Entry>>([]);
   const [skills, setSkills] = useState<Array<Skill>>([]);
   const [pageDTO, setPageDTO] = useState<PageDTO>();
   const [displayEditModal, setDisplayEditModal] = useState(false);
@@ -43,16 +40,6 @@ const ProjectPage = () => {
       }
     };
 
-    const loadPageDTO = async () => {
-      if (jwtToken !== null && userId !== undefined) {
-        const user = await fetchPageDTO(parseInt(userId), jwtToken);
-        console.log(user.portfolioEntryList);
-        setPageDTO(user);
-      
-      }
-    };
-  
-
     const loadTechnologies = () => {
       const technologies = Object.keys(Technology).map((key, index) => ({
         id: index + 1,
@@ -63,31 +50,28 @@ const ProjectPage = () => {
     };
 
     loadSkills();
-   // loadPortfolioEntries();
     loadPageDTO();
-    console.log(pageDTO);
-  //  setEntries(pageDTO?.portfolioEntries);
     loadTechnologies();
   }, []);
-
- /* const loadPortfolioEntries = async () => {
+  const loadPageDTO = async () => {
     if (jwtToken !== null && userId !== undefined) {
-     // const entries = await fetchPortfolioEntries(parseInt(userId), jwtToken);
-      const entries = pageDTO?.portfolioEntries;
-      const sortedEntries = entries.sort((a: Entry, b: Entry) => a.id < b.id);
-      setEntries(sortedEntries); 
+      const user = await fetchPageDTO(parseInt(userId), jwtToken);
+      console.log(user.portfolioEntryList);
+      setPageDTO(user);
     }
-  }; */
+  };
 
   const editEntry = (updatedEntry: Entry) => {
     if (jwtToken !== null) {
-    updatePortfolioEntry(updatedEntry.id, updatedEntry, jwtToken);
+      updatePortfolioEntry(updatedEntry.id, updatedEntry, jwtToken);
     }
   };
 
   const changeModalStatus = (id?: number) => {
     if (id !== undefined) {
-      const entry = entries.find((entry) => entry.id === id);
+      const entry = pageDTO?.portfolioEntryList.find(
+        (entry) => entry.id === id
+      );
       setEditedEntry(entry);
       setDisplayEditModal(!displayEditModal);
     } else {
@@ -97,9 +81,9 @@ const ProjectPage = () => {
 
   const addEntry = async (newEntry: Entry) => {
     if (jwtToken !== null) {
-    await postNewPortfolioEntry(newEntry, jwtToken);
-   // await loadPortfolioEntries();
-    changeModalStatus();
+      await postNewPortfolioEntry(newEntry, jwtToken);
+      await loadPageDTO();
+      changeModalStatus();
     }
   };
 
@@ -112,11 +96,13 @@ const ProjectPage = () => {
             {pageDTO?.publicUser && <About publicUser={pageDTO.publicUser} />}
           </div>
           <div className="flex-grow overflow-y-auto">
-            {pageDTO && <PortfolioList
-              entries={pageDTO.portfolioEntryList}
-              onDisplayEditModal={(id: number) => changeModalStatus(id)}
-              onDisplayAddModal={() => changeModalStatus()}
-            />}
+            {pageDTO && (
+              <PortfolioList
+                entries={pageDTO.portfolioEntryList}
+                onDisplayEditModal={(id: number) => changeModalStatus(id)}
+                onDisplayAddModal={() => changeModalStatus()}
+              />
+            )}
           </div>
         </div>
 
