@@ -163,7 +163,7 @@ const EditEntry: React.FC<EditEntryProps> = ({
                 className="flex items-center mb-2"
               >
                 <label className="mr-2">
-                  {technology.technology}
+                  {technology.technology.replace("_", " ")}
                   <input
                     type="checkbox"
                     checked={technology.isChecked}

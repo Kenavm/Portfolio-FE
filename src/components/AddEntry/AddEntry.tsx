@@ -137,7 +137,7 @@ const AddEntry: React.FC<AddEntryProps> = ({
         <div className="checkbox_technologies">
           {technologies.map((technology) => (
             <div key={technology.id} className="flex items-center mb-2">
-              <p className="mr-2">{technology.technology}</p>
+              <p className="mr-2">{technology.technology.replace("_", " ")}</p>
               <input
                 type="checkbox"
                 defaultChecked={technology.isChecked}

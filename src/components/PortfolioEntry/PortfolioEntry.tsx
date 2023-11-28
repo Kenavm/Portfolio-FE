@@ -24,7 +24,7 @@ const PortfolioEntry: React.FC<PortfolioEntryProps> = ({ entry, onDisplayEditMod
           <p className="entry-description text-center whitespace-pre-wrap break-words ml-2">{entry.description}</p>
           <div className="entry-technologies flex justify-center flex-wrap p-2.5 text-[#FF2E63]">
             {entry.technologies.map((technology: string, index) => (
-              <p key= {entry.technologies[index]}className="technology border-solid border-1">{technology}</p>
+              <p key= {entry.technologies[index]}className="technology border-solid border-1">{technology.replace("_", " ")}</p>
             ))}
           </div>
         </div>
