@@ -1,6 +1,6 @@
 type Entry = {
     id:number,
-    userId:number,
+    privateUserId:number,
     startDate: string,
     endDate: string,
     description: string,

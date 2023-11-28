@@ -115,9 +115,10 @@ const ProjectPage = () => {
 
         <SkillList skills={skills} />
         <div className="">
-          {displayAddModal && (
+          {displayAddModal && userId && (
             <AddEntry
               technologies={technologies}
+              userId={parseInt(userId)}
               onAddEntry={(newEntry: Entry) => addEntry(newEntry)}
               cancel={() => changeModalStatus()}
             />

@@ -5,6 +5,7 @@ import Button from "../Button/Button";
 import Entry from "../../types/Entry";
 import { useState } from "react";
 import React from "react";
+import Modal from "../Modal/Modal";
 
 interface TechnologyCheckbox {
   id: number;
@@ -61,7 +62,7 @@ const EditEntry: React.FC<EditEntryProps> = ({
     const knownTechnologies = convertTechnologiesToString();
     const updatedEntry: Entry = {
       id: entry.id,
-      userId: entry.userId,
+      privateUserId: entry.privateUserId,
       startDate: convertDateToString(startDate),
       endDate: convertDateToString(endDate),
       description: description,
@@ -92,10 +93,8 @@ const EditEntry: React.FC<EditEntryProps> = ({
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="fixed inset-0 bg-black opacity-50"></div>
+   <Modal>
       <form
-        className="bg-white border-2 border-black rounded-2xl p-8 max-w-md z-10"
         onSubmit={onSubmitEntry}
       >
         <div className="start-date-container">
@@ -179,7 +178,7 @@ const EditEntry: React.FC<EditEntryProps> = ({
         />
         <Button onClick={() => cancel(entry.id)} buttonText="Cancel" />
       </form>
-    </div>
+      </Modal>
   );
 };
 

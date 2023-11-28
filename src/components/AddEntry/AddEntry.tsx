@@ -1,23 +1,26 @@
 import DatePicker from "react-datepicker";
-import Teeh from "../../types/Technology";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../Button/Button";
 import { useState } from "react";
 import Entry from "../../types/Entry";
 import React from "react";
+import Modal from "../Modal/Modal";
+import Technology from "../../types/Technology";
 
 interface AddEntryProps {
   technologies: {
     id: number;
-    technology: Teeh;
+    technology: Technology;
     isChecked: boolean;
   }[];
+  userId: number;
   onAddEntry: (newEntry: Entry) => void;
   cancel: () => void;
 }
 
 const AddEntry: React.FC<AddEntryProps> = ({
   technologies,
+  userId,
   cancel,
   onAddEntry,
 }) => {
@@ -37,7 +40,7 @@ const AddEntry: React.FC<AddEntryProps> = ({
 
     const newEntry: Entry = {
       id: 0,
-      userId: 1,
+      privateUserId: userId,
       startDate: startDateFormat,
       endDate: endDateFormat,
       description: description,
@@ -73,83 +76,80 @@ const AddEntry: React.FC<AddEntryProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="fixed inset-0 bg-black opacity-50"></div>
-      <div className="border-2 border-black rounded-2xl bg-[#EAEAEA] p-8 add_entry_container max-w-md z-10">
-        <div className="start_date_container">
-          Start Date:
-          <DatePicker
-            selected={startDate}
-            onChange={(date: Date) => setStartDate(date)}
-            className="bg-[#EAEAEA] border border-black m-4"
-          />
-        </div>
-        <div className="end_date_container">
-          End Date:
-          <DatePicker
-            selected={endDate}
-            onChange={(date: Date) => setEndDate(date)}
-            className="bg-[#EAEAEA] border border-black m-4"
-          />
-        </div>
-        <div className="role_input_field">
-          <label>
-            Role:
-            <input
-              type="text"
-              value={role}
-              placeholder="Insert the role"
-              onChange={(e) => setRole(e.target.value)}
-              className="bg-[#EAEAEA] border border-black m-4"
-            />
-          </label>
-        </div>
-        <div className="repoLink_input_field">
-          <label>
-            Repository Link:
-            <input
-              type="text"
-              value={repoLink}
-              placeholder="Insert the repository link"
-              onChange={(e) => setRepoLink(e.target.value)}
-              className="bg-[#EAEAEA] border border-black m-4"
-            />
-          </label>
-        </div>
-        <div className="description flex items-center justify-center">
-          <label>
-            Description:
-            <textarea
-              value={description}
-              placeholder="description...."
-              onChange={(e) => setDescription(e.target.value)}
-              className="bg-[#EAEAEA] border border-black m-4"
-            />
-          </label>
-        </div>
-        <div className="flex flex-col items-center justify-center">
-          <div className="checkbox_technologies">
-            {technologies.map((technology) => (
-              <div key={technology.id} className="flex items-center mb-2">
-                <p className="mr-2">{technology.technology}</p>
-                <input
-                  type="checkbox"
-                  defaultChecked={technology.isChecked}
-                  onChange={() => onCheckedTechnology(technology.id)}
-                  className="mr-2 bg-[#FF2E63]"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-        <Button
-          className={validation ? "visible" : "invisible"} // Use Tailwind classes for visibility
-          onClick={onSubmitEntry}
-          buttonText="Submit new entry"
+    <Modal>
+      <div className="start_date_container">
+        Start Date:
+        <DatePicker
+          selected={startDate}
+          onChange={(date: Date) => setStartDate(date)}
+          className="bg-[#EAEAEA] border border-black m-4"
         />
-        <Button onClick={() => cancel()} buttonText="Cancel" />
       </div>
-    </div>
+      <div className="end_date_container">
+        End Date:
+        <DatePicker
+          selected={endDate}
+          onChange={(date: Date) => setEndDate(date)}
+          className="bg-[#EAEAEA] border border-black m-4"
+        />
+      </div>
+      <div className="role_input_field">
+        <label>
+          Role:
+          <input
+            type="text"
+            value={role}
+            placeholder="Insert role"
+            onChange={(e) => setRole(e.target.value)}
+            className="bg-[#EAEAEA] border border-black m-4"
+          />
+        </label>
+      </div>
+      <div className="repoLink_input_field">
+        <label>
+          Repository Link:
+          <input
+            type="text"
+            value={repoLink}
+            placeholder="Insert repository link"
+            onChange={(e) => setRepoLink(e.target.value)}
+            className="bg-[#EAEAEA] border border-black m-4"
+          />
+        </label>
+      </div>
+      <div className="description flex items-center justify-center">
+        <label>
+          Description:
+          <textarea
+            value={description}
+            placeholder="Description...."
+            onChange={(e) => setDescription(e.target.value)}
+            className="bg-[#EAEAEA] border border-black m-4"
+          />
+        </label>
+      </div>
+      <div className="flex flex-col items-center justify-center">
+        <div className="checkbox_technologies">
+          {technologies.map((technology) => (
+            <div key={technology.id} className="flex items-center mb-2">
+              <p className="mr-2">{technology.technology}</p>
+              <input
+                type="checkbox"
+                defaultChecked={technology.isChecked}
+                onChange={() => onCheckedTechnology(technology.id)}
+                className="mr-2 bg-[#FF2E63]"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+      <Button
+        className={validation ? "visible" : "invisible"}
+        onClick={onSubmitEntry}
+        buttonText="Submit new entry"
+      />
+      <Button onClick={() => cancel()} buttonText="Cancel" />
+    </Modal>
   );
 };
 
