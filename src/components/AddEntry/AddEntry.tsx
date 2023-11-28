@@ -31,7 +31,11 @@ const AddEntry: React.FC<AddEntryProps> = ({
   const [description, setDescription] = useState("");
   const [updatedTechnologies, setUpdatedTechnologies] = useState(technologies);
   const validation =
-    role.length > 0 && repoLink.length > 0 && description.length > 0;
+  role.length > 0 &&
+  repoLink.length > 0 &&
+  description.length > 0 &&
+  new Date(startDate) <= new Date(endDate);
+
 
   const onSubmitEntry = () => {
     const startDateFormat = convertDateToString(startDate);
@@ -50,7 +54,8 @@ const AddEntry: React.FC<AddEntryProps> = ({
     };
     onAddEntry(newEntry);
   };
-
+  console.log("Start Date:", startDate);
+  console.log("End Date:", endDate);
   function filterTechnologies() {
     return updatedTechnologies
       .filter((t) => t.isChecked)

@@ -39,7 +39,10 @@ const EditEntry: React.FC<EditEntryProps> = ({
     setStartingCheckboxState()
   );
   const validation =
-    role.length > 0 && repoLink.length > 0 && description.length > 0;
+  role.length > 0 &&
+  repoLink.length > 0 &&
+  description.length > 0 &&
+  new Date(startDate) <= new Date(endDate);
 
   function setStartingCheckboxState() {
     return technologies.map((tech) => ({
