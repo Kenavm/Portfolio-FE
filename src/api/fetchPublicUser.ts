@@ -1,5 +1,5 @@
 const fetchPublicUser = async (userId: number, token: string) => {
-    const res = await fetch(`http://localhost:8080/api/v1/public-user/${userId}`, {
+    const res = await fetch(`http://localhost:8080/page/${userId}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
         "Content-Type": "application/json",
