@@ -92,87 +92,94 @@ const EditEntry: React.FC<EditEntryProps> = ({
   }
 
   return (
-    <form
-      className="border-2 border-black rounded-2xl bg-[#EAEAEA] edit-entry-form"
-      onSubmit={onSubmitEntry}
-    >
-      <div className="start-date-container">
-        Start Date:
-        <DatePicker
-          selected={startDate}
-          onChange={(date: Date | null | undefined) =>
-            date && setStartDate(date)
-          }
-          className="bg-[#EAEAEA] border border-black m-4"
-        />
-      </div>
-      <div className="end-date-container">
-        End Date:
-        <DatePicker
-          selected={endDate}
-          onChange={(date: Date | null | undefined) => date && setEndDate(date)}
-          className="bg-[#EAEAEA] border border-black m-4"
-        />
-      </div>
-      <div className="role-input-field">
-        <label>
-          Role:
-          <input
-            type="text"
-            value={role}
-            placeholder="Insert the role"
-            onChange={(e) => setRole(e.target.value)}
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-black opacity-50"></div>
+      <form
+        className="bg-white border-2 border-black rounded-2xl p-8 max-w-md z-10"
+        onSubmit={onSubmitEntry}
+      >
+        <div className="start-date-container">
+          Start Date:
+          <DatePicker
+            selected={startDate}
+            onChange={(date: Date | null | undefined) =>
+              date && setStartDate(date)
+            }
             className="bg-[#EAEAEA] border border-black m-4"
           />
-        </label>
-      </div>
-      <div className="repoLink-input-field">
-        <label>
-          Repository Link:
-          <input
-            type="text"
-            value={repoLink}
-            placeholder="Insert the repository link"
-            onChange={(e) => setRepoLink(e.target.value)}
-            className="bg-[#EAEAEA] border border-black m-4"
-          />
-        </label>
-      </div>
-      <div className="description">
-        <label>
-          Description:
-          <textarea
-            value={description}
-            placeholder="description...."
-            onChange={(e) => setDescription(e.target.value)}
-            className="bg-[#EAEAEA] border border-black m-4"
-          />
-        </label>
-      </div>
-      <div className="flex flex-col items-center justify-center">
-        <div className="checkbox-technologies">
-          {updatedTechnologies.map((technology) => (
-            <div key={technology.technology} className="flex items-center mb-2">
-              <label className="mr-2">
-                {technology.technology}
-                <input
-                  type="checkbox"
-                  checked={technology.isChecked}
-                  onChange={() => handleCheckboxChange(technology.id)}
-                  className="mr-2 bg-[#FF2E63]"
-                />
-              </label>
-            </div>
-          ))}
         </div>
-      </div>
-
-      <Button
-        className={validation ? "visibility: visible" : "visibility: hidden"}
-        buttonText="Edit entry"
-      />
-      <Button onClick={() => cancel} buttonText="Cancel" />
-    </form>
+        <div className="end-date-container">
+          End Date:
+          <DatePicker
+            selected={endDate}
+            onChange={(date: Date | null | undefined) =>
+              date && setEndDate(date)
+            }
+            className="bg-[#EAEAEA] border border-black m-4"
+          />
+        </div>
+        <div className="role-input-field">
+          <label>
+            Role:
+            <input
+              type="text"
+              value={role}
+              placeholder="Insert the role"
+              onChange={(e) => setRole(e.target.value)}
+              className="bg-[#EAEAEA] border border-black m-4"
+            />
+          </label>
+        </div>
+        <div className="repoLink-input-field">
+          <label>
+            Repository Link:
+            <input
+              type="text"
+              value={repoLink}
+              placeholder="Insert the repository link"
+              onChange={(e) => setRepoLink(e.target.value)}
+              className="bg-[#EAEAEA] border border-black m-4"
+            />
+          </label>
+        </div>
+        <div className="description">
+          <label>
+            Description:
+            <textarea
+              value={description}
+              placeholder="description...."
+              onChange={(e) => setDescription(e.target.value)}
+              className="bg-[#EAEAEA] border border-black m-4"
+            />
+          </label>
+        </div>
+        <div className="flex flex-col items-center justify-center">
+          <div className="checkbox-technologies">
+            {updatedTechnologies.map((technology) => (
+              <div
+                key={technology.technology}
+                className="flex items-center mb-2"
+              >
+                <label className="mr-2">
+                  {technology.technology}
+                  <input
+                    type="checkbox"
+                    checked={technology.isChecked}
+                    onChange={() => handleCheckboxChange(technology.id)}
+                    className="mr-2 bg-[#FF2E63]"
+                  />
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+        <Button
+          className={validation ? "visible" : "invisible"} // Use Tailwind classes for visibility
+          buttonText="Edit entry"
+        />
+        <Button onClick={() => cancel(entry.id)} buttonText="Cancel" />
+      </form>
+    </div>
   );
 };
 
