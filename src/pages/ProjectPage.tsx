@@ -101,6 +101,7 @@ const ProjectPage = () => {
                 entries={pageDTO.portfolioEntryList}
                 onDisplayEditModal={(id: number) => changeModalStatus(id)}
                 onDisplayAddModal={() => changeModalStatus()}
+                loggedIn= {true}
               />
             )}
           </div>
