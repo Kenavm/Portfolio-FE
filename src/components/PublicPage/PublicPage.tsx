@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import PageDTO from "../../types/PageDTO";
-import Technology from "../../types/Technology";
 import Skill from "../../types/Skill";
 import { useParams } from "react-router-dom";
 import fetchSkillEntries from "../../api/fetchSkillEntries";
@@ -15,13 +14,6 @@ import fetchPageDTO from "../../api/fetchPageDTO";
 const PublicPage = ({}) => {
     const [skills, setSkills] = useState<Array<Skill>>([]);
     const [pageDTO, setPageDTO] = useState<PageDTO>();
-    const [technologies, setTechnologies] = useState<
-      {
-        id: number;
-        technology: Technology;
-        isChecked: boolean;
-      }[]
-    >([]);
     const { userId } = useParams();
   
     useEffect(() => {
@@ -30,18 +22,9 @@ const PublicPage = ({}) => {
           setSkills(skills);
       };
   
-      const loadTechnologies = () => {
-        const technologies = Object.keys(Technology).map((key, index) => ({
-          id: index + 1,
-          technology: Technology[key as keyof typeof Technology],
-          isChecked: false,
-        }));
-        setTechnologies(technologies);
-      };
-  
       loadSkills();
       loadPageDTO();
-      loadTechnologies();
+    
     }, []);
 
     const loadPageDTO = async () => {
