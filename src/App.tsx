@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import ProjectPage from "./pages/ProjectPage";
 import StartPage from './pages/StartPage';
 import './App.css';
+import PublicPage from './components/PublicPage/PublicPage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route index element={<StartPage/>} />
           <Route path= "/login" element = {<LoginPage/>} />
           <Route path ="/page/:userId" element = {<ProjectPage/>}/>
+          <Route path ="/public/:userId" element = {<PublicPage/>}/>
         </Routes>
       </BrowserRouter>
     </div>
