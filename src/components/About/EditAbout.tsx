@@ -5,9 +5,10 @@ import Button from "../Button/Button";
 interface EditAboutProps {
   description: string;
   onEditAbout: (editedDescription: string) => void;
+  onDisplayAboutModal: (id?:number, about?:boolean) => void;
 }
 
-const EditAbout: React.FC<EditAboutProps> = ({ description, onEditAbout }) => {
+const EditAbout: React.FC<EditAboutProps> = ({ description, onEditAbout, onDisplayAboutModal }) => {
   const [editedDescription, setEditedDescription] =
     useState<string>(description);
 
@@ -21,7 +22,11 @@ const EditAbout: React.FC<EditAboutProps> = ({ description, onEditAbout }) => {
       <Button
         onClick={() => onEditAbout(editedDescription)}
         buttonText="Submit"
-      ></Button>
+      />
+      <Button 
+        onClick={() => onDisplayAboutModal(undefined, false)}
+        buttonText="Cancel"
+      />
     </Modal>
   );
 };

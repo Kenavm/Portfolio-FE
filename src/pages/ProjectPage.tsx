@@ -70,16 +70,17 @@ const ProjectPage = () => {
   };
 
   const changeModalStatus = (id?: number, about?: boolean) => {
-    if (about) {
-      setDisplayEditAboutModal(true);
-    } else if (id !== undefined) {
-      const entry = pageDTO?.portfolioEntryList.find(
-        (entry) => entry.id === id
-      );
-      setEditedEntry(entry);
-      setDisplayEditModal(!displayEditModal);
+    if (about !== undefined) {
+      setDisplayEditAboutModal(about);
     } else {
-      setDisplayAddModal(!displayAddModal);
+      const entry =
+        id !== undefined
+          ? pageDTO?.portfolioEntryList.find((entry) => entry.id === id)
+          : undefined;
+      setEditedEntry(entry);
+      setDisplayEditModal(
+        id !== undefined ? !displayEditModal : !displayAddModal
+      );
     }
   };
 
@@ -95,6 +96,7 @@ const ProjectPage = () => {
     console.log(editedDescription);
     await patchAboutDescription(parseInt(userId), editedDescription, jwtToken);
     await loadPageDTO();
+    setDisplayEditAboutModal(false)
   };
 
   return (
@@ -149,6 +151,7 @@ const ProjectPage = () => {
           <EditAbout
             description={pageDTO.publicUser.aboutDescription}
             onEditAbout={editDescription}
+            onDisplayAboutModal={() => changeModalStatus(undefined, false)}
           />
         )}
       </div>
