@@ -1,7 +1,6 @@
 import React from "react";
 import "./About.css";
 import PublicUser from "../../types/PublicUser";
-import Skill from "../../types/Skill";
 
 interface AboutMeProps {
   publicUser: PublicUser;
@@ -29,11 +28,6 @@ const About: React.FC<AboutMeProps> = ({ publicUser }) => {
         <section className="text absolute inset-y-50">
           {publicUser.aboutDescription}
         </section>
-      </div>
-      <div className="skills">
-        {publicUser.skillList.map((s: Skill) => (
-          <div key={s.id}>Skill {s.idTechnology}</div>
-        ))}
       </div>
     </div>
   );

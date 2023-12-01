@@ -2,7 +2,7 @@ import React from "react";
 import Entry from "../../types/Entry";
 //import "./PortfolioEntry.css";
 import Button from "../Button/Button";
-import "../../css/style.css";
+//import "../../css/style.css";
 import Technology from "../../types/Technology";
 
 interface PortfolioEntryProps {

@@ -1,7 +1,7 @@
 type Skill = {
     id: number,
     idTechnology: number,
-    level: number
+    skillLevel: number
 }
 
 export default Skill;

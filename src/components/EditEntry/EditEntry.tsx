@@ -1,15 +1,16 @@
 import DatePicker from "react-datepicker";
-import Technology from "../../types/Technology";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../Button/Button";
 import Entry from "../../types/Entry";
 import { useState } from "react";
 import React from "react";
 import Modal from "../Modal/Modal";
+import "../../css/style.css";
+
 
 interface TechnologyCheckbox {
   id: number;
-  technology: Technology;
+  technology: string;
   isChecked: boolean;
 }
 
@@ -39,15 +40,19 @@ const EditEntry: React.FC<EditEntryProps> = ({
     setStartingCheckboxState()
   );
   const validation =
-  role.length > 0 &&
-  repoLink.length > 0 &&
-  description.length > 0 &&
-  new Date(startDate) <= new Date(endDate);
+    role.length > 0 &&
+    repoLink.length > 0 &&
+    description.length > 0 &&
+    new Date(startDate) <= new Date(endDate);
+  console.log(technologies);
 
   function setStartingCheckboxState() {
+    const technologyNames = entry.technologies.map(
+      (tech) => tech.technologyName
+    );
     return technologies.map((tech) => ({
       ...tech,
-      isChecked: entry.technologies.includes(tech.technology),
+      isChecked: technologyNames.includes(tech.technology),
     }));
   }
 
@@ -61,8 +66,11 @@ const EditEntry: React.FC<EditEntryProps> = ({
     );
   };
 
+  console.log(updatedTechnologies);
+
   const onSubmitEntry = () => {
-    const knownTechnologies = convertTechnologiesToString();
+    const knownTechnologies = convertTechnologiesToTechnologyObject();
+    console.log(knownTechnologies);
     const updatedEntry: Entry = {
       id: entry.id,
       privateUserId: entry.privateUserId,
@@ -74,13 +82,17 @@ const EditEntry: React.FC<EditEntryProps> = ({
       repoLink: repoLink,
     };
 
-    onEditEntry(updatedEntry);
+    console.log(updatedEntry);
+    //onEditEntry(updatedEntry);
   };
 
-  function convertTechnologiesToString() {
+  function convertTechnologiesToTechnologyObject() {
     return updatedTechnologies
       .filter((tech) => tech.isChecked)
-      .map((tech) => tech.technology);
+      .map((tech) => ({
+        id: tech.id,
+        technologyName: tech.technology,
+      }));
   }
 
   function convertStringToDate(date: string) {
@@ -96,10 +108,8 @@ const EditEntry: React.FC<EditEntryProps> = ({
   }
 
   return (
-   <Modal>
-      <form
-        onSubmit={onSubmitEntry}
-      >
+    <Modal>
+      <form onSubmit={onSubmitEntry}>
         <div className="start-date-container">
           Start Date:
           <DatePicker
@@ -181,7 +191,7 @@ const EditEntry: React.FC<EditEntryProps> = ({
         />
         <Button onClick={() => cancel(entry.id)} buttonText="Cancel" />
       </form>
-      </Modal>
+    </Modal>
   );
 };
 
