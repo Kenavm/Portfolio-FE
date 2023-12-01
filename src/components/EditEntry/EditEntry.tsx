@@ -7,7 +7,6 @@ import React from "react";
 import Modal from "../Modal/Modal";
 import "../../css/style.css";
 
-
 interface TechnologyCheckbox {
   id: number;
   technology: string;

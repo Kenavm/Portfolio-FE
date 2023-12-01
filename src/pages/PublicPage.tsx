@@ -9,7 +9,7 @@ import SkillList from "../components/SkillList/SkillList";
 import fetchPageDTO from "../api/fetchPageDTO";
 import fetchAllTechnologies from "../api/fetchAllTechnologies";
 
-const PublicPage = ({}) => {
+const PublicPage = () => {
   const [pageDTO, setPageDTO] = useState<PageDTO>();
   const [technologies, setAllTechnologies] = useState([]);
   const { userId } = useParams();

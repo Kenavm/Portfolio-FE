@@ -35,15 +35,7 @@ const ProjectPage = () => {
   const jwtToken = localStorage.getItem("jwtToken");
 
   useEffect(() => {
-     const loadPageDTO = async () => {
-      if (jwtToken !== null && userId !== undefined) {
-        const user = await fetchPageDTO(parseInt(userId), jwtToken);
-        console.log(user.portfolioEntryList);
-        console.log(user);
-        setPageDTO(user);
-      }
-    };
-
+    
     const loadTechnologies = async () => {
       const fetchedTechnologies = await fetchAllTechnologies();
       setAllTechnologies(fetchedTechnologies);
@@ -60,6 +52,7 @@ const ProjectPage = () => {
     console.log(pageDTO);
     loadTechnologies();
   }, []);
+  
   const loadPageDTO = async () => {
     if (jwtToken !== null && userId !== undefined) {
       const user = await fetchPageDTO(parseInt(userId), jwtToken);
@@ -69,8 +62,8 @@ const ProjectPage = () => {
   };
 
   const editEntry = (updatedEntry: Entry) => {
-    if (token !== null) {
-      updatePortfolioEntry(updatedEntry.id, updatedEntry, token);
+    if (jwtToken !== null) {
+      updatePortfolioEntry(updatedEntry.id, updatedEntry, jwtToken);
     }
   };
   const changeModalStatus = (id?: number, about?: boolean) => {
@@ -88,16 +81,16 @@ const ProjectPage = () => {
   };
 
   const addEntry = async (newEntry: Entry) => {
-    if (token !== null) {
-      await postNewPortfolioEntry(newEntry, token);
+    if (jwtToken !== null) {
+      await postNewPortfolioEntry(newEntry, jwtToken);
       await loadPageDTO();
       changeModalStatus();
     }
   };
 
   const editDescription = async (newDescription: string) => {
-    if (userId !== undefined && token !== null) {
-      await patchAboutDescription(parseInt(userId), newDescription, token);
+    if (userId !== undefined && jwtToken !== null) {
+      await patchAboutDescription(parseInt(userId), newDescription, jwtToken);
       await loadPageDTO();
       setDisplayEditAboutModal(false);
     }
