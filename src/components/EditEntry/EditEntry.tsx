@@ -168,25 +168,28 @@ const EditEntry: React.FC<EditEntryProps> = ({
                 key={technology.technology}
                 className="flex items-center mb-2"
               >
-                <label className="mr-2">
-                  {technology.technology.replace("_", " ")}
-                  <input
-                    type="checkbox"
-                    checked={technology.isChecked}
-                    onChange={() => handleCheckboxChange(technology.id)}
-                    className="mr-2 bg-[#FF2E63]"
-                  />
-                </label>
+                <p className="mr-2">{`${technology.technology
+                  .charAt(0)
+                  .toUpperCase()}${technology.technology
+                  .slice(1)
+                  .toLowerCase()
+                  .replace("_", " ")}`}</p>
+                <input
+                  type="checkbox"
+                  checked={technology.isChecked}
+                  onChange={() => handleCheckboxChange(technology.id)}
+                  className="mr-2 bg-[#FF2E63]"
+                />
               </div>
             ))}
           </div>
           <div className="flex items-center mt-5 space-x-2">
-          <Button
-            className={validation ? "visible" : "invisible"}
-            buttonText="Edit"
-          />
-          <Button onClick={() => cancel(entry.id)} buttonText="Cancel" />
-        </div>
+            <Button
+              className={validation ? "visible" : "invisible"}
+              buttonText="Edit"
+            />
+            <Button onClick={() => cancel(entry.id)} buttonText="Cancel" />
+          </div>
         </div>
       </form>
     </Modal>

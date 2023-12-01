@@ -27,7 +27,7 @@ const PortfolioEntry: React.FC<PortfolioEntryProps> = ({
       <div className="entry-facts flex flex-1 flex-col justify-center max-w-md">
         {loggedIn && (
           <Button
-            className={"flex justify-end"}
+            className={"flex justify-end text-xs "}
             onClick={() => onDisplayEditModal(entry.id)}
             buttonText="Edit"
           />
