@@ -15,11 +15,7 @@ import PageDTO from "../types/PageDTO";
 import EditAbout from "../components/About/EditAbout";
 import patchAboutDescription from "../api/patchAboutDescription";
 import fetchAllTechnologies from "../api/fetchAllTechnologies";
-
-interface Technology {
-  id: number;
-  technologyName: string;
-}
+import Technology from "../types/Technology";
 
 const ProjectPage = () => {
   const [pageDTO, setPageDTO] = useState<PageDTO>();
