@@ -1,8 +1,6 @@
 import React from "react";
 import Entry from "../../types/Entry";
-//import "./PortfolioEntry.css";
 import Button from "../Button/Button";
-//import "../../css/style.css";
 import Technology from "../../types/Technology";
 
 interface PortfolioEntryProps {
@@ -13,12 +11,12 @@ interface PortfolioEntryProps {
 
 const PortfolioEntry: React.FC<PortfolioEntryProps> = ({
   entry,
-  onDisplayEditModal: onDisplayModal,
+  onDisplayEditModal,
   loggedIn,
 }) => {
   return (
     <div
-      className="entry-container flex border-1 border-solid border-black rounded-3xl p-2.5 text-center m-4 bg-[#EAEAEA] drop-shadow-md "
+      className="entry-container flex items-center border border-solid border-black rounded-3xl p-2.5 text-center m-4 bg-[#EAEAEA] drop-shadow-md "
       key={entry.id}
     >
       <div className="start-and-end-date p-5 border-r border-solid border-r-black">
@@ -30,7 +28,7 @@ const PortfolioEntry: React.FC<PortfolioEntryProps> = ({
         {loggedIn && (
           <Button
             className={"flex justify-end"}
-            onClick={() => onDisplayModal(entry.id)}
+            onClick={() => onDisplayEditModal(entry.id)}
             buttonText="Edit"
           />
         )}

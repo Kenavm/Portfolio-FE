@@ -1,6 +1,5 @@
 import React from "react";
 import Skill from "../../types/Skill";
-import "./SkillEntry.css";
 import Technology from "../../types/Technology";
 import { useState } from "react";
 
@@ -16,13 +15,14 @@ const SkillEntry: React.FC<SkillEntryProps> = ({ skill, technologies }) => {
     return technologies.find((t) => t.id === skill.idTechnology)
       ?.technologyName;
   }
-
+  console.log(skill)
   return (
-    <div className="entry-container flex items-center" key={skill.id}>
-      <div className="technology">
-        <p>{technologyName?.replace("_", " ")}</p>
+    <div className="skill-container flex items-center border border-solid border-black rounded-3xl p-2.5 text-center m-4 drop-shadow-md">
+      <div className="technology p-5">
+        <p className="text-sm">{`${technologyName?.charAt(0).toUpperCase()}${technologyName?.slice(1).toLowerCase().replace("_", " ")}`}</p>
       </div>
       <div className="w-full bg-gray-200 rounded-full h-3.0 ml-2 dark:bg-gray-700">
+        
         <div
           className="bg-[#FF2E63] text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
           style={{

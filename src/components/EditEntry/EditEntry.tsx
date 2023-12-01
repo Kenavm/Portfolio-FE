@@ -180,12 +180,14 @@ const EditEntry: React.FC<EditEntryProps> = ({
               </div>
             ))}
           </div>
+          <div className="flex items-center mt-5 space-x-2">
+          <Button
+            className={validation ? "visible" : "invisible"}
+            buttonText="Edit"
+          />
+          <Button onClick={() => cancel(entry.id)} buttonText="Cancel" />
         </div>
-        <Button
-          className={validation ? "visible" : "invisible"} // Use Tailwind classes for visibility
-          buttonText="Edit entry"
-        />
-        <Button onClick={() => cancel(entry.id)} buttonText="Cancel" />
+        </div>
       </form>
     </Modal>
   );

@@ -16,13 +16,13 @@ interface AboutMeProps {
 const About: React.FC<AboutMeProps> = ({
   publicUser,
   loggedIn,
-  onDisplayEditAboutModal,
+  onDisplayEditAboutModal = () => {},
   skills,
   technologies,
 }) => {
   return (
     <div className="flex flex-column">
-      <div className="about-container absolute inset-y-10 left-5">
+      <div className="about-container absolute inset-y-20 left-5">
         <img
           className="image rounded-lg m-12 mt-15"
           src={
@@ -36,7 +36,7 @@ const About: React.FC<AboutMeProps> = ({
           }
           alt="User Image"
         />
-        <h2 className="header">About: {publicUser.name}</h2>
+        <h2 className="header text-2xl font-bold mb-2">About {publicUser.name}</h2>
         <section className="text absolute inset-y-50">
           {publicUser.aboutDescription}
           {loggedIn && (
@@ -46,12 +46,12 @@ const About: React.FC<AboutMeProps> = ({
                 buttonText="Edit About"
                 className="mt-4"
               />
-              <div className="mt-4">
-                <h2>Skills</h2>
-                <SkillList skills={skills} technologies={technologies} />
-              </div>
             </div>
           )}
+          <div className="mt-10">
+            <h2 className="text-2xl font-bold">Technical Skills</h2>
+            <SkillList skills={skills} technologies={technologies} />
+          </div>
         </section>
       </div>
     </div>

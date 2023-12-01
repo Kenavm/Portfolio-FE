@@ -42,7 +42,6 @@ const AddEntry: React.FC<AddEntryProps> = ({
     const filteredTechnologies = filterTechnologies();
     console.log(filteredTechnologies);
 
-
     const newEntry: Entry = {
       id: 0,
       privateUserId: userId,
@@ -56,7 +55,6 @@ const AddEntry: React.FC<AddEntryProps> = ({
     console.log(newEntry);
     onAddEntry(newEntry);
   };
-
 
   function filterTechnologies(): Technology[] {
     return updatedTechnologies
@@ -152,13 +150,15 @@ const AddEntry: React.FC<AddEntryProps> = ({
             </div>
           ))}
         </div>
+        <div className="flex items-center mt-5 space-x-2">
+          <Button
+            className={validation ? "visible" : "invisible"}
+            onClick={onSubmitEntry}
+            buttonText="Submit"
+          />
+          <Button onClick={() => cancel()} buttonText="Cancel" />
+        </div>
       </div>
-      <Button
-        className={validation ? "visible" : "invisible"}
-        onClick={onSubmitEntry}
-        buttonText="Submit new entry"
-      />
-      <Button onClick={() => cancel()} buttonText="Cancel" />
     </Modal>
   );
 };

@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./Header.css";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -15,7 +14,7 @@ const Header = () => {
         className="flex justify-end items-start cursor-pointer ..."
         onClick={() => navigate("/")}
       >
-        <>HOME</>
+        HOME
       </div>
     </div>
   );

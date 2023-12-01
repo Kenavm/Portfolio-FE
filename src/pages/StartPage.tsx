@@ -11,7 +11,7 @@ const StartPage = () => {
   };
   return (
     <div>
-      <Header className=""/>
+      <Header />
       <Button
         onClick={onClickLoginPage}
         buttonText="login"

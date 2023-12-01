@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import PortfolioList from "../components/PortfolioEntries/PortfolioList";
 import Entry from "../types/Entry";
-import SkillList from "../components/SkillList/SkillList";
 import Header from "../components/Header/Header";
 import fetchPageDTO from "../api/fetchPageDTO";
 import About from "../components/About/About";

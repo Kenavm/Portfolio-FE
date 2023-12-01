@@ -38,7 +38,14 @@ const PublicPage = () => {
       <div>
         <div className="flex h-screen">
           <div className="flex-none">
-            {pageDTO?.publicUser && <About publicUser={pageDTO.publicUser} loggedIn={false}/>}
+            {pageDTO?.publicUser && (
+              <About
+                publicUser={pageDTO.publicUser}
+                loggedIn={false}
+                skills={pageDTO?.publicUser.skillList}
+                technologies={technologies}
+              />
+            )}
           </div>
           <div className="flex-grow overflow-y-auto">
             {pageDTO && (
@@ -49,14 +56,6 @@ const PublicPage = () => {
             )}
           </div>
         </div>
-        {pageDTO?.publicUser.skillList !== undefined ? (
-          <SkillList
-            skills={pageDTO?.publicUser.skillList}
-            technologies={technologies}
-          />
-        ) : (
-          <p></p>
-        )}
       </div>
     </div>
   );
