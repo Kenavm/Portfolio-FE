@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
 import PortfolioList from "../components/PortfolioEntries/PortfolioList";
-import fetchSkillEntries from "../api/fetchSkillEntries";
 import Entry from "../types/Entry";
-import Skill from "../types/Skill";
 import SkillList from "../components/SkillList/SkillList";
 import Header from "../components/Header/Header";
 import fetchPageDTO from "../api/fetchPageDTO";
 import About from "../components/About/About";
 import updatePortfolioEntry from "../api/updatePortfolioEntry";
 import AddEntry from "../components/AddEntry/AddEntry";
-import Technology from "../types/Technology";
 import EditEntry from "../components/EditEntry/EditEntry";
 import postNewPortfolioEntry from "../api/postNewPortfolioEntry";
 import React from "react";
@@ -17,9 +14,10 @@ import { useParams } from "react-router-dom";
 import PageDTO from "../types/PageDTO";
 import EditAbout from "../components/About/EditAbout";
 import patchAboutDescription from "../api/patchAboutDescription";
+import fetchAllTechnologies from "../api/fetchAllTechnologies";
+import Technology from "../types/Technology";
 
 const ProjectPage = () => {
-  const [skills, setSkills] = useState<Array<Skill>>([]);
   const [pageDTO, setPageDTO] = useState<PageDTO>();
   const [displayEditModal, setDisplayEditModal] = useState(false);
   const [displayAddModal, setDisplayAddModal] = useState(false);
@@ -27,45 +25,44 @@ const ProjectPage = () => {
   const [technologies, setTechnologies] = useState<
     {
       id: number;
-      technology: Technology;
+      technology: string;
       isChecked: boolean;
     }[]
   >([]);
   const [editedEntry, setEditedEntry] = useState<Entry>();
   const { userId } = useParams();
-  const token = localStorage.getItem("jwtToken");
+  const [allTechnologies, setAllTechnologies] = useState([]);
+  const jwtToken = localStorage.getItem("jwtToken");
 
   useEffect(() => {
-    const loadSkills = async () => {
-      if (token !== null) {
-        const skills = await fetchSkillEntries(token);
-        setSkills(skills);
-      }
+    const loadTechnologies = async () => {
+      const fetchedTechnologies = await fetchAllTechnologies();
+      setAllTechnologies(fetchedTechnologies);
+
+      const transformedTechnologies = fetchedTechnologies.map(
+        (tech: Technology) => ({
+          id: tech.id,
+          technology: tech.technologyName,
+          isChecked: false,
+        })
+      );
+      setTechnologies(transformedTechnologies);
     };
 
-    const loadTechnologies = () => {
-      const technologies = Object.keys(Technology).map((key, index) => ({
-        id: index + 1,
-        technology: Technology[key as keyof typeof Technology],
-        isChecked: false,
-      }));
-      setTechnologies(technologies);
-    };
-
-    loadSkills();
     loadPageDTO();
     loadTechnologies();
   }, []);
+
   const loadPageDTO = async () => {
-    if (token !== null && userId !== undefined) {
-      const user = await fetchPageDTO(parseInt(userId), token);
+    if (jwtToken !== null && userId !== undefined) {
+      const user = await fetchPageDTO(parseInt(userId), jwtToken);
       setPageDTO(user);
     }
   };
 
   const editEntry = (updatedEntry: Entry) => {
-    if (token !== null) {
-      updatePortfolioEntry(updatedEntry.id, updatedEntry, token);
+    if (jwtToken !== null) {
+      updatePortfolioEntry(updatedEntry.id, updatedEntry, jwtToken);
     }
   };
   const changeModalStatus = (id?: number, about?: boolean) => {
@@ -83,16 +80,16 @@ const ProjectPage = () => {
   };
 
   const addEntry = async (newEntry: Entry) => {
-    if (token !== null) {
-      await postNewPortfolioEntry(newEntry, token);
+    if (jwtToken !== null) {
+      await postNewPortfolioEntry(newEntry, jwtToken);
       await loadPageDTO();
       changeModalStatus();
     }
   };
 
   const editDescription = async (newDescription: string) => {
-    if (userId !== undefined && token !== null) {
-      await patchAboutDescription(parseInt(userId), newDescription, token);
+    if (userId !== undefined && jwtToken !== null) {
+      await patchAboutDescription(parseInt(userId), newDescription, jwtToken);
       await loadPageDTO();
       setDisplayEditAboutModal(false);
     }
@@ -126,7 +123,14 @@ const ProjectPage = () => {
           </div>
         </div>
 
-        <SkillList skills={skills} />
+        {pageDTO?.publicUser.skillList !== undefined ? (
+          <SkillList
+            skills={pageDTO?.publicUser.skillList}
+            technologies={allTechnologies}
+          />
+        ) : (
+          <p></p>
+        )}
         <div className="">
           {displayAddModal && userId && (
             <AddEntry

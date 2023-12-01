@@ -1,14 +1,6 @@
-enum Technology {
-  JAVASCRIPT = 'JAVASCRIPT',
-  JAVA = 'JAVA',
-  POSTGRESQL = 'POSTGRESQL',
-  REACT = 'REACT',
-  SPRING_WEB = 'SPRING_WEB',
-  SPRING_SECURITY = 'SPRING_SECURITY',
-  SPRING_DATA = 'SPRING_DATA',
-  EXPRESS_JS = 'EXPRESS_JS',
-  MONGO_DB = 'MONGO_DB',
-  NODE_JS = 'NODE_JS'
+type Technology = {
+  id: number,
+  technologyName: string
 }
 
 export default Technology;
