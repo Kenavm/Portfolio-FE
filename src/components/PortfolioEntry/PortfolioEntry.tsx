@@ -41,7 +41,7 @@ const PortfolioEntry: React.FC<PortfolioEntryProps> = ({
         <div className="entry-technologies flex justify-center flex-wrap p-2.5 text-[#FF2E63]">
           {entry.technologies.map((technology: Technology, index: number) => (
             <p key={index} className="mr-2">
-              {technology.technologyName}
+              {technology.technologyName.replace("_", " ")}
             </p>
           ))}
         </div>
