@@ -16,6 +16,11 @@ import EditAbout from "../components/About/EditAbout";
 import patchAboutDescription from "../api/patchAboutDescription";
 import fetchAllTechnologies from "../api/fetchAllTechnologies";
 
+interface Technology {
+  id: number;
+  technologyName: string;
+}
+
 const ProjectPage = () => {
   const [pageDTO, setPageDTO] = useState<PageDTO>();
   const [displayEditModal, setDisplayEditModal] = useState(false);
@@ -37,11 +42,14 @@ const ProjectPage = () => {
     const loadTechnologies = async () => {
       const fetchedTechnologies = await fetchAllTechnologies();
       setAllTechnologies(fetchedTechnologies);
-      const transformedTechnologies = fetchedTechnologies.map((tech) => ({
-        id: tech.id,
-        technology: tech.technologyName,
-        isChecked: false,
-      }));
+
+      const transformedTechnologies = fetchedTechnologies.map(
+        (tech: Technology) => ({
+          id: tech.id,
+          technology: tech.technologyName,
+          isChecked: false,
+        })
+      );
       setTechnologies(transformedTechnologies);
     };
 

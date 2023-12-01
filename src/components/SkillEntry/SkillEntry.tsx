@@ -14,8 +14,6 @@ const SkillEntry: React.FC<SkillEntryProps> = ({ skill, technologies }) => {
     setStartingTechnologyName
   );
 
-  console.log(skill);
-
   function setStartingTechnologyName() {
     return technologies.find((t) => t.id == skill.idTechnology)?.technologyName;
   }
