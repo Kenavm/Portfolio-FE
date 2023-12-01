@@ -36,8 +36,6 @@ const AddEntry: React.FC<AddEntryProps> = ({
     description.length > 0 &&
     new Date(startDate) <= new Date(endDate);
 
-    console.log(validation);
-
   const onSubmitEntry = () => {
     const startDateFormat = convertDateToString(startDate);
     const endDateFormat = convertDateToString(endDate);
@@ -56,10 +54,9 @@ const AddEntry: React.FC<AddEntryProps> = ({
       repoLink: repoLink,
     };
     console.log(newEntry);
-    //onAddEntry(newEntry);
+    onAddEntry(newEntry);
   };
-  console.log("Start Date:", startDate);
-  console.log("End Date:", endDate);
+
 
   function filterTechnologies(): Technology[] {
     return updatedTechnologies

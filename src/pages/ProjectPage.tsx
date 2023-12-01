@@ -14,8 +14,12 @@ import { useParams } from "react-router-dom";
 import PageDTO from "../types/PageDTO";
 import EditAbout from "../components/About/EditAbout";
 import patchAboutDescription from "../api/patchAboutDescription";
-import fetchAllTechnologies from "../api/fetchAllTechnologies"; 
+import fetchAllTechnologies from "../api/fetchAllTechnologies";
 
+interface Technology {
+  id: number;
+  technologyName: string;
+}
 
 const ProjectPage = () => {
   const [pageDTO, setPageDTO] = useState<PageDTO>();
@@ -35,23 +39,24 @@ const ProjectPage = () => {
   const jwtToken = localStorage.getItem("jwtToken");
 
   useEffect(() => {
-    
     const loadTechnologies = async () => {
       const fetchedTechnologies = await fetchAllTechnologies();
       setAllTechnologies(fetchedTechnologies);
-      const transformedTechnologies = fetchedTechnologies.map(tech => ({
-        id: tech.id,
-        technology: tech.technologyName,
-        isChecked: false
-      }));
+
+      const transformedTechnologies = fetchedTechnologies.map(
+        (tech: Technology) => ({
+          id: tech.id,
+          technology: tech.technologyName,
+          isChecked: false,
+        })
+      );
       setTechnologies(transformedTechnologies);
     };
-  
 
     loadPageDTO();
     loadTechnologies();
   }, []);
-  
+
   const loadPageDTO = async () => {
     if (jwtToken !== null && userId !== undefined) {
       const user = await fetchPageDTO(parseInt(userId), jwtToken);
@@ -122,7 +127,14 @@ const ProjectPage = () => {
           </div>
         </div>
 
-      {pageDTO?.publicUser.skillList !== undefined ? ( <SkillList skills={pageDTO?.publicUser.skillList} technologies={allTechnologies} /> ): (<p></p>)}
+        {pageDTO?.publicUser.skillList !== undefined ? (
+          <SkillList
+            skills={pageDTO?.publicUser.skillList}
+            technologies={allTechnologies}
+          />
+        ) : (
+          <p></p>
+        )}
         <div className="">
           {displayAddModal && userId && (
             <AddEntry
