@@ -31,7 +31,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
+    <div className="place-items-center">
       {privateUser && (
         <LoginForm
           privateUser={privateUser}
