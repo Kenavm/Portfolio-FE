@@ -1,17 +1,24 @@
 import React from "react";
 import PublicUser from "../../types/PublicUser";
 import Button from "../Button/Button";
+import Skill from "../../types/Skill";
+import Technology from "../../types/Technology";
+import SkillList from "../SkillList/SkillList";
 
 interface AboutMeProps {
   publicUser: PublicUser;
   loggedIn: boolean;
   onDisplayEditAboutModal?: (about: boolean) => void;
+  skills: Array<Skill>;
+  technologies: Array<Technology>;
 }
 
 const About: React.FC<AboutMeProps> = ({
   publicUser,
   loggedIn,
   onDisplayEditAboutModal,
+  skills,
+  technologies,
 }) => {
   return (
     <div className="flex flex-column">
@@ -33,11 +40,17 @@ const About: React.FC<AboutMeProps> = ({
         <section className="text absolute inset-y-50">
           {publicUser.aboutDescription}
           {loggedIn && (
-            <Button
-              onClick={() => onDisplayEditAboutModal(true)}
-              buttonText="Edit About"
-              className="mt-4"
-            />
+            <div>
+              <Button
+                onClick={() => onDisplayEditAboutModal(true)}
+                buttonText="Edit About"
+                className="mt-4"
+              />
+              <div className="mt-4">
+                <h2>Skills</h2>
+                <SkillList skills={skills} technologies={technologies} />
+              </div>
+            </div>
           )}
         </section>
       </div>

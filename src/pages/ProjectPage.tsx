@@ -108,6 +108,8 @@ const ProjectPage = () => {
                 }
                 publicUser={pageDTO.publicUser}
                 loggedIn={true}
+                skills={pageDTO?.publicUser.skillList}
+                technologies={allTechnologies}
               />
             )}
           </div>
@@ -123,14 +125,6 @@ const ProjectPage = () => {
           </div>
         </div>
 
-        {pageDTO?.publicUser.skillList !== undefined ? (
-          <SkillList
-            skills={pageDTO?.publicUser.skillList}
-            technologies={allTechnologies}
-          />
-        ) : (
-          <p></p>
-        )}
         <div className="">
           {displayAddModal && userId && (
             <AddEntry
