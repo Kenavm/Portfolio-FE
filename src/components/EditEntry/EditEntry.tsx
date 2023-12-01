@@ -5,7 +5,6 @@ import Entry from "../../types/Entry";
 import { useState } from "react";
 import React from "react";
 import Modal from "../Modal/Modal";
-import "../../css/style.css";
 
 interface TechnologyCheckbox {
   id: number;
