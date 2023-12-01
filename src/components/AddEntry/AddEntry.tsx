@@ -54,8 +54,7 @@ const AddEntry: React.FC<AddEntryProps> = ({
     };
     onAddEntry(newEntry);
   };
-  console.log("Start Date:", startDate);
-  console.log("End Date:", endDate);
+
   function filterTechnologies() {
     return updatedTechnologies
       .filter((t) => t.isChecked)

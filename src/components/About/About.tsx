@@ -5,7 +5,7 @@ import Button from "../Button/Button";
 interface AboutMeProps {
   publicUser: PublicUser;
   loggedIn: boolean;
-  onDisplayEditAboutModal: (about: boolean) => void;
+  onDisplayEditAboutModal?: (about: boolean) => void;
 }
 
 const About: React.FC<AboutMeProps> = ({

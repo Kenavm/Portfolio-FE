@@ -4,7 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import ProjectPage from "./pages/ProjectPage";
 import StartPage from './pages/StartPage';
 import './App.css';
-import PublicPage from './components/PublicPage/PublicPage';
+import PublicPage from './pages/PublicPage';
 
 function App() {
   return (

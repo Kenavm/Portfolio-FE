@@ -1,9 +1,9 @@
 const patchAboutDescription = async (
-  id: number,
+  userId: number,
   newDescription: string,
   token: string
 ) => {
-  const url = `http://localhost:8080/api/v1/public-user/${id}`;
+  const url = `http://localhost:8080/api/v1/public-user/${userId}`;
   await fetch(url, {
     method: "PATCH",
     headers: {
