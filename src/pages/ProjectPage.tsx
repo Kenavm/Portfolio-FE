@@ -12,6 +12,8 @@ import postNewPortfolioEntry from "../api/postNewPortfolioEntry";
 import React from "react";
 import { useParams } from "react-router-dom";
 import PageDTO from "../types/PageDTO";
+import EditAbout from "../components/About/EditAbout";
+import patchAboutDescription from "../api/patchAboutDescription";
 import fetchAllTechnologies from "../api/fetchAllTechnologies"; 
 
 
@@ -19,6 +21,7 @@ const ProjectPage = () => {
   const [pageDTO, setPageDTO] = useState<PageDTO>();
   const [displayEditModal, setDisplayEditModal] = useState(false);
   const [displayAddModal, setDisplayAddModal] = useState(false);
+  const [displayEditAboutModal, setDisplayEditAboutModal] = useState(false);
   const [technologies, setTechnologies] = useState<
     {
       id: number;
@@ -57,20 +60,26 @@ const ProjectPage = () => {
     console.log(pageDTO);
     loadTechnologies();
   }, []);
-
-  console.log(technologies);
-
-  const editEntry = (updatedEntry: Entry) => {
-    if (jwtToken !== null) {
-      updatePortfolioEntry(updatedEntry.id, updatedEntry, jwtToken);
+  const loadPageDTO = async () => {
+    if (jwtToken !== null && userId !== undefined) {
+      const user = await fetchPageDTO(parseInt(userId), jwtToken);
+      console.log(user.portfolioEntryList);
+      setPageDTO(user);
     }
   };
 
-  const changeModalStatus = (id?: number) => {
-    console.log(id);
-    if (id !== undefined && pageDTO !== undefined) {
-      const entry = pageDTO.portfolioEntryList.find((entry) => entry.id === id);
-      console.log(entry);
+  const editEntry = (updatedEntry: Entry) => {
+    if (token !== null) {
+      updatePortfolioEntry(updatedEntry.id, updatedEntry, token);
+    }
+  };
+  const changeModalStatus = (id?: number, about?: boolean) => {
+    if (about != undefined) {
+      setDisplayEditAboutModal(about);
+    } else if (id !== undefined) {
+      const entry = pageDTO?.portfolioEntryList.find(
+        (entry) => entry.id === id
+      );
       setEditedEntry(entry);
       setDisplayEditModal(!displayEditModal);
     } else {
@@ -79,13 +88,20 @@ const ProjectPage = () => {
   };
 
   const addEntry = async (newEntry: Entry) => {
-    if (jwtToken !== null) {
-      await postNewPortfolioEntry(newEntry, jwtToken);
+    if (token !== null) {
+      await postNewPortfolioEntry(newEntry, token);
+      await loadPageDTO();
       changeModalStatus();
     }
   };
 
-  console.log(pageDTO?.publicUser.skillList);
+  const editDescription = async (newDescription: string) => {
+    if (userId !== undefined && token !== null) {
+      await patchAboutDescription(parseInt(userId), newDescription, token);
+      await loadPageDTO();
+      setDisplayEditAboutModal(false);
+    }
+  };
 
   return (
     <div>
@@ -93,7 +109,15 @@ const ProjectPage = () => {
       <div>
         <div className="flex h-screen">
           <div className="flex-none">
-            {pageDTO?.publicUser && <About publicUser={pageDTO.publicUser} />}
+            {pageDTO?.publicUser && (
+              <About
+                onDisplayEditAboutModal={() =>
+                  changeModalStatus(undefined, true)
+                }
+                publicUser={pageDTO.publicUser}
+                loggedIn={true}
+              />
+            )}
           </div>
           <div className="flex-grow overflow-y-auto">
             {pageDTO && (
@@ -101,7 +125,7 @@ const ProjectPage = () => {
                 entries={pageDTO.portfolioEntryList}
                 onDisplayEditModal={(id: number) => changeModalStatus(id)}
                 onDisplayAddModal={() => changeModalStatus()}
-                loggedIn= {true}
+                loggedIn={true}
               />
             )}
           </div>
@@ -126,8 +150,15 @@ const ProjectPage = () => {
             technologies={technologies}
             cancel={(id: number) => changeModalStatus(id)}
           />
-        )}  
-        </div> 
+        )}
+        {displayEditAboutModal && pageDTO && (
+          <EditAbout
+            description={pageDTO.publicUser.aboutDescription}
+            onEditAbout={editDescription}
+            onDisplayAboutModal={() => changeModalStatus(undefined, false)}
+          />
+        )}
+      </div>
     </div>
   );
 };
