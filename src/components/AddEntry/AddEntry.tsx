@@ -10,7 +10,7 @@ import Technology from "../../types/Technology";
 interface AddEntryProps {
   technologies: {
     id: number;
-    technology: Technology;
+    technology: string;
     isChecked: boolean;
   }[];
   userId: number;
@@ -31,16 +31,19 @@ const AddEntry: React.FC<AddEntryProps> = ({
   const [description, setDescription] = useState("");
   const [updatedTechnologies, setUpdatedTechnologies] = useState(technologies);
   const validation =
-  role.length > 0 &&
-  repoLink.length > 0 &&
-  description.length > 0 &&
-  new Date(startDate) <= new Date(endDate);
+    role.length > 0 &&
+    repoLink.length > 0 &&
+    description.length > 0 &&
+    new Date(startDate) <= new Date(endDate);
 
+    console.log(validation);
 
   const onSubmitEntry = () => {
     const startDateFormat = convertDateToString(startDate);
     const endDateFormat = convertDateToString(endDate);
     const filteredTechnologies = filterTechnologies();
+    console.log(filteredTechnologies);
+
 
     const newEntry: Entry = {
       id: 0,
@@ -52,14 +55,19 @@ const AddEntry: React.FC<AddEntryProps> = ({
       role: role,
       repoLink: repoLink,
     };
-    onAddEntry(newEntry);
+    console.log(newEntry);
+    //onAddEntry(newEntry);
   };
   console.log("Start Date:", startDate);
   console.log("End Date:", endDate);
-  function filterTechnologies() {
+
+  function filterTechnologies(): Technology[] {
     return updatedTechnologies
       .filter((t) => t.isChecked)
-      .map((t) => t.technology);
+      .map((t) => ({
+        id: t.id,
+        technologyName: t.technology,
+      }));
   }
 
   function convertDateToString(date: Date) {
@@ -137,7 +145,7 @@ const AddEntry: React.FC<AddEntryProps> = ({
         <div className="checkbox_technologies">
           {technologies.map((technology) => (
             <div key={technology.id} className="flex items-center mb-2">
-              <p className="mr-2">{technology.technology.replace("_", " ")}</p>
+              <p className="mr-2">{technology.technology}</p>
               <input
                 type="checkbox"
                 defaultChecked={technology.isChecked}
