@@ -1,5 +1,4 @@
 import React from "react";
-import "./About.css";
 import PublicUser from "../../types/PublicUser";
 
 interface AboutMeProps {

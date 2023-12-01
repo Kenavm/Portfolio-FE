@@ -29,7 +29,7 @@ const PublicPage = () => {
   const loadAllTechnologies = async () => {
     const allTechnologies = await fetchAllTechnologies();
     setAllTechnologies(allTechnologies);
-  }
+  };
 
   return (
     <div>
@@ -49,7 +49,10 @@ const PublicPage = () => {
           </div>
         </div>
         {pageDTO?.publicUser.skillList !== undefined ? (
-          <SkillList skills={pageDTO?.publicUser.skillList}  technologies= {technologies}/>
+          <SkillList
+            skills={pageDTO?.publicUser.skillList}
+            technologies={technologies}
+          />
         ) : (
           <p></p>
         )}
