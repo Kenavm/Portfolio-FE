@@ -10,24 +10,23 @@ interface SkillEntryProps {
 }
 
 const SkillEntry: React.FC<SkillEntryProps> = ({ skill, technologies }) => {
-  const [technologyName, setTechnologyName] = useState(
-    setStartingTechnologyName
-  );
+  const [technologyName] = useState(setStartingTechnologyName);
 
   function setStartingTechnologyName() {
-    return technologies.find((t) => t.id === skill.idTechnology)?.technologyName;
+    return technologies.find((t) => t.id === skill.idTechnology)
+      ?.technologyName;
   }
 
   return (
-    <div className="entry-container" key={skill.id}>
+    <div className="entry-container flex items-center" key={skill.id}>
       <div className="technology">
-        <p>{technologyName}</p>
+        <p>{technologyName?.replace("_", " ")}</p>
       </div>
-      <div className="w-full bg-gray-200 rounded-full h-3.0 mb-4 dark:bg-gray-700">
+      <div className="w-full bg-gray-200 rounded-full h-3.0 ml-2 dark:bg-gray-700">
         <div
-          className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+          className="bg-[#FF2E63] text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
           style={{
-            width: `${skill.skillLevel * 8}%`, // Ändere den Faktor nach Bedarf
+            width: `${skill.skillLevel * 8}%`,
             height: "100%",
             borderRadius: "inherit",
           }}
