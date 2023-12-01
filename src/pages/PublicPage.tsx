@@ -1,27 +1,22 @@
 import { useEffect, useState } from "react";
 import PageDTO from "../types/PageDTO";
-import Skill from "../types/Skill";
 import { useParams } from "react-router-dom";
-import fetchSkillEntries from "../api/fetchSkillEntries";
 import React from "react";
 import Header from "../components/Header/Header";
 import About from "../components/About/About";
 import PortfolioList from "../components/PortfolioEntries/PortfolioList";
 import SkillList from "../components/SkillList/SkillList";
 import fetchPageDTO from "../api/fetchPageDTO";
+import fetchAllTechnologies from "../api/fetchAllTechnologies";
 
 const PublicPage = ({}) => {
-  const [skills, setSkills] = useState<Array<Skill>>([]);
   const [pageDTO, setPageDTO] = useState<PageDTO>();
+  const [technologies, setAllTechnologies] = useState([]);
   const { userId } = useParams();
 
   useEffect(() => {
-    const loadSkills = async () => {
-      const skills = await fetchSkillEntries();
-      setSkills(skills);
-    };
+    loadAllTechnologies();
 
-    loadSkills();
     loadPageDTO();
   }, []);
 
@@ -30,6 +25,11 @@ const PublicPage = ({}) => {
       const user = await fetchPageDTO(parseInt(userId));
       setPageDTO(user);
     }
+  };
+
+  const loadAllTechnologies = async () => {
+    const allTechnologies = await fetchAllTechnologies();
+    setAllTechnologies(allTechnologies);
   };
 
   return (
@@ -49,7 +49,14 @@ const PublicPage = ({}) => {
             )}
           </div>
         </div>
-        <SkillList skills={skills} />
+        {pageDTO?.publicUser.skillList !== undefined ? (
+          <SkillList
+            skills={pageDTO?.publicUser.skillList}
+            technologies={technologies}
+          />
+        ) : (
+          <p></p>
+        )}
       </div>
     </div>
   );
