@@ -11,6 +11,8 @@ interface PortfolioEntriesProps {
 }
  
 const PortfolioEntries: React.FC<PortfolioEntriesProps> = ({ entries, onDisplayEditModal, onDisplayAddModal, loggedIn }) => {
+  console.log(loggedIn);
+  
   return (
     <div className="portfolio-entries">
       {entries.map((entry) => (
