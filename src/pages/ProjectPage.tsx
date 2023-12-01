@@ -15,12 +15,15 @@ import postNewPortfolioEntry from "../api/postNewPortfolioEntry";
 import React from "react";
 import { useParams } from "react-router-dom";
 import PageDTO from "../types/PageDTO";
+import EditAbout from "../components/About/EditAbout";
+import patchAboutDescription from "../api/patchAboutDescription";
 
 const ProjectPage = () => {
   const [skills, setSkills] = useState<Array<Skill>>([]);
   const [pageDTO, setPageDTO] = useState<PageDTO>();
   const [displayEditModal, setDisplayEditModal] = useState(false);
   const [displayAddModal, setDisplayAddModal] = useState(false);
+  const [displayEditAboutModal, setDisplayEditAboutModal] = useState(false);
   const [technologies, setTechnologies] = useState<
     {
       id: number;
@@ -30,12 +33,12 @@ const ProjectPage = () => {
   >([]);
   const [editedEntry, setEditedEntry] = useState<Entry>();
   const { userId } = useParams();
-  const jwtToken = localStorage.getItem("jwtToken");
+  const token = localStorage.getItem("jwtToken");
 
   useEffect(() => {
     const loadSkills = async () => {
-      if (jwtToken !== null) {
-        const skills = await fetchSkillEntries(jwtToken);
+      if (token !== null) {
+        const skills = await fetchSkillEntries(token);
         setSkills(skills);
       }
     };
@@ -54,21 +57,21 @@ const ProjectPage = () => {
     loadTechnologies();
   }, []);
   const loadPageDTO = async () => {
-    if (jwtToken !== null && userId !== undefined) {
-      const user = await fetchPageDTO(parseInt(userId), jwtToken);
-      console.log(user.portfolioEntryList);
+    if (token !== null && userId !== undefined) {
+      const user = await fetchPageDTO(parseInt(userId), token);
       setPageDTO(user);
     }
   };
 
   const editEntry = (updatedEntry: Entry) => {
-    if (jwtToken !== null) {
-      updatePortfolioEntry(updatedEntry.id, updatedEntry, jwtToken);
+    if (token !== null) {
+      updatePortfolioEntry(updatedEntry.id, updatedEntry, token);
     }
   };
-
-  const changeModalStatus = (id?: number) => {
-    if (id !== undefined) {
+  const changeModalStatus = (id?: number, about?: boolean) => {
+    if (about != undefined) {
+      setDisplayEditAboutModal(about);
+    } else if (id !== undefined) {
       const entry = pageDTO?.portfolioEntryList.find(
         (entry) => entry.id === id
       );
@@ -80,10 +83,18 @@ const ProjectPage = () => {
   };
 
   const addEntry = async (newEntry: Entry) => {
-    if (jwtToken !== null) {
-      await postNewPortfolioEntry(newEntry, jwtToken);
+    if (token !== null) {
+      await postNewPortfolioEntry(newEntry, token);
       await loadPageDTO();
       changeModalStatus();
+    }
+  };
+
+  const editDescription = async (newDescription: string) => {
+    if (userId !== undefined && token !== null) {
+      await patchAboutDescription(parseInt(userId), newDescription, token);
+      await loadPageDTO();
+      setDisplayEditAboutModal(false);
     }
   };
 
@@ -93,7 +104,15 @@ const ProjectPage = () => {
       <div>
         <div className="flex h-screen">
           <div className="flex-none">
-            {pageDTO?.publicUser && <About publicUser={pageDTO.publicUser} />}
+            {pageDTO?.publicUser && (
+              <About
+                onDisplayEditAboutModal={() =>
+                  changeModalStatus(undefined, true)
+                }
+                publicUser={pageDTO.publicUser}
+                loggedIn={true}
+              />
+            )}
           </div>
           <div className="flex-grow overflow-y-auto">
             {pageDTO && (
@@ -101,7 +120,7 @@ const ProjectPage = () => {
                 entries={pageDTO.portfolioEntryList}
                 onDisplayEditModal={(id: number) => changeModalStatus(id)}
                 onDisplayAddModal={() => changeModalStatus()}
-                loggedIn= {true}
+                loggedIn={true}
               />
             )}
           </div>
@@ -125,6 +144,13 @@ const ProjectPage = () => {
             onEditEntry={(updatedEntry: Entry) => editEntry(updatedEntry)}
             technologies={technologies}
             cancel={(id: number) => changeModalStatus(id)}
+          />
+        )}
+        {displayEditAboutModal && pageDTO && (
+          <EditAbout
+            description={pageDTO.publicUser.aboutDescription}
+            onEditAbout={editDescription}
+            onDisplayAboutModal={() => changeModalStatus(undefined, false)}
           />
         )}
       </div>
