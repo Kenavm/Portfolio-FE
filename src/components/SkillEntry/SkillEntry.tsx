@@ -15,20 +15,23 @@ const SkillEntry: React.FC<SkillEntryProps> = ({ skill, technologies }) => {
   );
 
   function setStartingTechnologyName() {
-    return technologies.find((t) => t.id == skill.idTechnology)?.technologyName;
+    return technologies.find((t) => t.id === skill.idTechnology)?.technologyName;
   }
+
   return (
     <div className="entry-container" key={skill.id}>
       <div className="technology">
         <p>{technologyName}</p>
       </div>
-      <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+      <div className="w-full bg-gray-200 rounded-full h-3.0 mb-4 dark:bg-gray-700">
         <div
           className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-          style={{ width: `${skill.skillLevel * 10}%` }}
-        >
-          {" "}
-        </div>
+          style={{
+            width: `${skill.skillLevel * 8}%`, // Ändere den Faktor nach Bedarf
+            height: "100%",
+            borderRadius: "inherit",
+          }}
+        />
       </div>
     </div>
   );
