@@ -49,14 +49,12 @@ const ProjectPage = () => {
   
 
     loadPageDTO();
-    console.log(pageDTO);
     loadTechnologies();
   }, []);
   
   const loadPageDTO = async () => {
     if (jwtToken !== null && userId !== undefined) {
       const user = await fetchPageDTO(parseInt(userId), jwtToken);
-      console.log(user.portfolioEntryList);
       setPageDTO(user);
     }
   };

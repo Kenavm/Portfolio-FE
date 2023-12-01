@@ -80,9 +80,7 @@ const EditEntry: React.FC<EditEntryProps> = ({
       role: role,
       repoLink: repoLink,
     };
-
-    console.log(updatedEntry);
-    //onEditEntry(updatedEntry);
+    onEditEntry(updatedEntry);
   };
 
   function convertTechnologiesToTechnologyObject() {
