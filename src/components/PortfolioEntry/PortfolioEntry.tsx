@@ -31,7 +31,7 @@ const PortfolioEntry: React.FC<PortfolioEntryProps> = ({
             onClick={() => onDisplayEditModal(entry.id)}
             buttonText="Edit"
           />
-        )}
+        )}  
         <p className="entry-role font-bold text-[#FF2E63]">{entry.role}</p>
         <p className="entry-description text-center whitespace-pre-wrap break-words ml-2">
           {entry.description}
@@ -39,7 +39,7 @@ const PortfolioEntry: React.FC<PortfolioEntryProps> = ({
         <div className="entry-technologies flex justify-center flex-wrap p-2.5 text-[#FF2E63]">
           {entry.technologies.map((technology: Technology, index: number) => (
             <p key={index} className="mr-2">
-              {technology.technologyName.replace("_", " ")}
+              {`${technology.technologyName.charAt(0).toUpperCase()}${technology.technologyName.slice(1).replace("_", " ").toLowerCase()}`}
             </p>
           ))}
         </div>
